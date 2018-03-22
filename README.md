@@ -2,11 +2,12 @@
 
 Modal dialog component aiming for API simplicity but still covering common more complex use cases.
 
-*npm name*: react-another-dialog
-*version*: 0.1.4
-*date*: 2018/02/22
-*license*: MIT
-*author*: tapsaman
++ *npm name*: react-another-dialog
++ *version*: 0.1.5
++ *date*: 2018/02/22
++ *license*: MIT
++ *author*: tapsaman
+
 
 
 *** WORK IN PROGRESS ***
@@ -14,6 +15,8 @@ Modal dialog component aiming for API simplicity but still covering common more 
 
 
 *************************
+
+
 
 *In file [AnotherDialog.jsx](src//AnotherDialog.jsx)*
 
@@ -35,6 +38,8 @@ animateOut | function | n/a | Function to animate out the dialog the way you wis
 
 
 *************************
+
+
 
 *In file [AnotherDialogInput.jsx](src//AnotherDialogInput.jsx)*
 
