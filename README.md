@@ -1,8 +1,9 @@
 # AnotherDialog document
 
 Modal dialog component aiming for API simplicity but still covering common more complex use cases.
+
 *npm name*: react-another-dialog
-*version*: 0.1.3
+*version*: 0.1.4
 *date*: 2018/02/22
 *license*: MIT
 *author*: tapsaman
