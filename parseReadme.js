@@ -10,6 +10,20 @@ var output = "",
 	readCount = 0,
 	globEnd = false
 
+
+function getHeader() {
+	if (package) {
+		return "# AnotherDialog document\n\n"
+			+ package.description
+			+ "\n\n*npm name*: " + package.name
+			+ "\n*version*: " + package.version
+			+ "\n*date*: " + getDateString()
+			+ "\n*license*: " + package.license
+			+ "\n*author*: " + package.author + "\n\n"
+	}
+	return "";
+}
+
 glob.readdirStream('src/*')
 	.on('data', function (file) {
 		console.log("Reading " + file.path)
@@ -66,17 +80,7 @@ function writeOutput() {
 			return
 		}
 
-		if (package) {
-			let header = "# AnotherDialog document\n\n"
-				+ package.description
-				+ "\n\n*npm name*: " + package.name
-				+ "\n*version*: " + package.version
-				+ "\n*date*: " + getDateString()
-				+ "\n*license*: " + package.license
-				+ "\n*author*: " + package.author + "\n\n"
-
-			output = header + output
-		}
+		output = getHeader() + output
 
 		fs.writeFile('genREADME.md', output, function(err) {
 		    if (err) throw err;
