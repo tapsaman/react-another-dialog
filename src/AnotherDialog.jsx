@@ -22,11 +22,8 @@ title | string | n/a | Shown title (optional).
 subtitle | string | n/a | Shown subtitle. Included HTML will be rendered (optional).
 query | Array | n/a | Array of properties to render AnotherDialogInput-objects with OR ready-made input components (extending AnotherDialogInput)
 verification | bool/string | false | If true, verificate response before onSuccess. Give a string to define the verification question (default: "Are you sure to proceed?").
-animateIn | function | n/a | Function to animate in the dialog the way you wish.\
-Run as ```animateIn(formElement, maskElement)```
-animateOut | function | n/a | Function to animate out the dialog the way you wish.\
-Run as ```animateOut(formElement, maskElement, after)```\
-**Note**: Run the 'after'-function when done!
+animateIn | function | n/a | Function to animate in the dialog the way you wish.<br>Run as ```animateIn(formElement, maskElement)```
+animateOut | function | n/a | Function to animate out the dialog the way you wish.<br>Run as ```animateOut(formElement, maskElement, after)```<br>**Note**: Run the 'after'-function when done!
 
 ^^^^*/
 

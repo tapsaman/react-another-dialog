@@ -1,16 +1,12 @@
-@font-face {
-  font-family: 'Montserrat';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Montserrat Regular'), local('Montserrat-Regular'), url(https://fonts.gstatic.com/s/montserrat/v12/JTUSjIg1_i6t8kCHKm459Wlhzg.ttf) format('truetype');
-}
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Montserrat', sans-serif;
+  font-family: sans-serif;
 }
 #app {
   width: 100%;
-  max-width: 600px;
+  max-width: 800px;
+  padding: 0 15px;
   margin: auto;
+  box-sizing: border-box;
 }

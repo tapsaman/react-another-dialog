@@ -35,15 +35,6 @@
 .a-dialog-form .radio-span {
   display: block;
 }
-.a-dialog-form .check-group {
-  max-height: 250px;
-  overflow: auto;
-  border: 1px #000 inset;
-  padding: 5px;
-}
-.a-dialog-form .check-group .check-group-header {
-  font-weight: bold;
-}
 .a-dialog-form input[type="submit"],
 .a-dialog-form input[type="button"] {
   font-family: inherit;
@@ -86,14 +77,13 @@
   color: inherit;
   padding: 5px 0;
 }
-.a-dialog-q:not(.inline) > input[type="text"],
-.a-dialog-q:not(.inline) > input[type="password"] {
+.a-dialog-input:not(.inline) > input[type="text"],
+.a-dialog-input:not(.inline) > input[type="password"] {
   width: 100%;
   font-size: 1.2em;
 }
 .a-dialog-input.inline {
   display: inline-block;
-  min-width: 100px;
   margin-right: 10px;
 }
 .a-dialog-input.inline > .input-title {
@@ -105,18 +95,58 @@
   width: 120px;
   max-width: 100%;
 }
-.a-dialog-input-addable .addable-add-rem {
+.a-dialog-input-date .rdtPicker {
+  position: fixed;
+}
+.a-dialog-input-group {
+  max-height: 250px;
+  overflow: auto;
+  border: 1px #000 inset;
+  padding: 5px;
+}
+.a-dialog-input-addable .addable-add-rem-container {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   text-align: center;
 }
-.a-dialog-input-addable .addable-add-rem > * {
+.a-dialog-input-addable .addable-add-rem-container > * {
   margin: 0 5px;
 }
-.a-dialog-input-addable .addable-add-rem > *.add-rem:hover {
-  color: green;
+.a-dialog-input-addable .addable-add-rem-container .addable-add-rem {
+  cursor: pointer;
+  width: 25px;
+  display: inline-block;
+}
+.a-dialog-input-addable .addable-add-rem-container .addable-add-rem:hover {
+  color: #999;
+}
+.a-dialog-input-addable .addable-add-rem-container .addable-add-rem.addable-rem {
+  text-align: right;
+}
+.a-dialog-input-addable .addable-add-rem-container .addable-add-rem.addable-rem:hover::before {
+  content: "< ";
+}
+.a-dialog-input-addable .addable-add-rem-container .addable-add-rem.addable-add {
+  text-align: left;
+}
+.a-dialog-input-addable .addable-add-rem-container .addable-add-rem.addable-add:hover::after {
+  content: " >";
 }
 .a-dialog-input-addable .addable-child {
   padding: 10px;
 }
-.a-dialog-input-addable .addable-child:nth-child(even) {
+.a-dialog-input-addable .addable-child:nth-child(odd) {
   background-color: #ddd;
+}
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
