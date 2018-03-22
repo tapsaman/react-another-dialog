@@ -20,7 +20,7 @@ const commands = [
 try {
 
 	for (let i=0; i < commands.length; i++) {
-		console.log( "> " + commands[i] )
+		console.log( "\t> " + commands[i] )
 		let stdout = execSync( commands[i] )
 		console.log( stdout )
 	}
