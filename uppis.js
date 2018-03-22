@@ -1,10 +1,8 @@
 const { execSync } = require('child_process');
 
-console.log(process.argv)
+const commitMsg = process.argv[2] || "nameless-commit" + new Date().toTimeString().slice(0,8)
 
-const commitMsg = process.argv[2] 
-	? process.argv[2].slice(2)
-	: "nameless-commit"
+console.log("Commiting as '"+commitMsg+"'")
 
 const commands = [
 	"git add .",

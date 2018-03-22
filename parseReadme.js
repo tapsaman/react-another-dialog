@@ -96,8 +96,10 @@ function getDateString()
 			+ "/" + d.getMonth()
 			+ "/" + d.getDate()
 
-	// Padd lone numbers with zeroes, "2018/3/1 -> 2018/03/01"
+	// Padd lone numbers with zeroes "2018/3/1 -> 2018/03/01"
 	str = str.replace( /\/(\d(?!\d))/g, "/0$1" )
+	// Add time
+	str += " " + d.toTimeString().slice(0,8)
 
 	return str
 }

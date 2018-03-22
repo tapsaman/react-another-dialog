@@ -17,9 +17,9 @@ module.exports = {
 	entry: 
 	{
 		"react-another-dialog": "./src/AnotherDialog.jsx",
-		style_prompt: "./src/AnotherDialog.less",
-		example: "./src/example.jsx",
-		style_example: "./src/example.less"
+		"style": 				"./src/AnotherDialog.less",
+		"example": 				"./src/example.jsx",
+		"example-style": 		"./src/example.less"
 	},
 
 	module: {
