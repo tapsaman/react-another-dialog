@@ -10,7 +10,6 @@ var output = "",
 	readCount = 0,
 	globEnd = false
 
-
 function getHeader() {
 	if (package) {
 		return "# AnotherDialog document\n\n"
