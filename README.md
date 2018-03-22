@@ -3,8 +3,8 @@
 Modal dialog component aiming for API simplicity but still covering common more complex use cases.
 
 + **npm name:** react-another-dialog
-+ **version:** 0.1.10
-+ **date:** 2018/02/22
++ **version:** 0.1.11
++ **date:** 2018/02/22 18:21:54
 + **license:** MIT
 + **author:** tapsaman
 
