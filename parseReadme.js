@@ -2,7 +2,7 @@ const fs = require('fs');
 const glob = require('glob-fs')({ gitignore: true })
 const package = require('./package.json')
 
-const separator = "\n*************************\n"
+const separator = "\n\n*************************\n\n"
 
 var output = "",
 	foundFiles = [], 
@@ -16,10 +16,11 @@ function getHeader() {
 		return "# AnotherDialog document\n\n"
 			+ package.description
 			+ "\n\n*npm name*: " + package.name
-			+ "\n*version*: " + package.version
-			+ "\n*date*: " + getDateString()
-			+ "\n*license*: " + package.license
-			+ "\n*author*: " + package.author + "\n\n"
+			+ "\n\n*version*: " + package.version
+			+ "\n\n*date*: " + getDateString()
+			+ "\n\n*license*: " + package.license
+			+ "\n\n*author*: " + package.author
+			+ "\n\n*** WORK IN PROGRESS ***\n\n"
 	}
 	return "";
 }
@@ -55,7 +56,7 @@ function extract(file, data) {
 			output += separator
 
 			if (iter === 0)
-				output += "*In file ["+file.basename+"]("+file.relative+")*\n"
+				output += "*In file ["+file.basename+"]("+file.relative.replace(/\\/g,"//")+")*\n"
 
 			output += res[1]
 		}
@@ -82,7 +83,7 @@ function writeOutput() {
 
 		output = getHeader() + output
 
-		fs.writeFile('genREADME.md', output, function(err) {
+		fs.writeFile('README.md', output, function(err) {
 		    if (err) throw err;
 		    console.log("Generated .md")
 		})
@@ -146,10 +147,10 @@ function __extract(file, contents) {
 			let header = "# AnotherDialog document\n\n"
 				+ package.description
 				+ "\n\n*npm name*: " + package.name
-				+ "\n*version*: " + package.version
-				+ "\n*date*: " + getDateString()
-				+ "\n*license*: " + package.license
-				+ "\n*author*: " + package.author + "\n\n"
+				+ "\n\n*version*: " + package.version
+				+ "\n\n*date*: " + getDateString()
+				+ "\n\n*license*: " + package.license
+				+ "\n\n*author*: " + package.author + "\n\n"
 
 			output = header + output
 		}
