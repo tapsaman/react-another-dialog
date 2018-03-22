@@ -3,28 +3,11 @@
 Modal dialog component aiming for API simplicity but still covering common more complex use cases.
 
 + **npm name:** react-another-dialog
-+ **version:** 0.1.8
++ **version:** 0.1.9
 + **date:** 2018/02/22
 + **license:** MIT
 + **author:** tapsaman
-
-
-
-*** WORK IN PROGRESS ***
-
-
-
-*************************
-
-
-
-
-
-*************************
-
-
-
-*In file [AnotherDialog.jsx](src//AnotherDialog.jsx)*
+<br><br>*** WORK IN PROGRESS ***<br><br><br><br><br>*************************<br><br><br>*In file [AnotherDialog.jsx](src//AnotherDialog.jsx)*
 
 ## class AnotherDialog
 
@@ -41,19 +24,7 @@ verification | bool/string | false | If true, verificate response before onSucce
 animateIn | function | n/a | Function to animate in the dialog the way you wish.<br>Run as ```animateIn(formElement, maskElement)```
 animateOut | function | n/a | Function to animate out the dialog the way you wish.<br>Run as ```animateOut(formElement, maskElement, after)```<br>**Note**: Run the 'after'-function when done!
 
-
-
-*************************
-
-
-
-
-
-*************************
-
-
-
-*In file [AnotherDialogInput.jsx](src//AnotherDialogInput.jsx)*
+<br><br><br>*************************<br><br><br>*In file [AnotherDialogInput.jsx](src//AnotherDialogInput.jsx)*
 
 ## class AnotherDialogInput
 
