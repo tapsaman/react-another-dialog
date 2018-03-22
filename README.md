@@ -2,15 +2,21 @@
 
 Modal dialog component aiming for API simplicity but still covering common more complex use cases.
 
-+ *npm name*: react-another-dialog
-+ *version*: 0.1.5
-+ *date*: 2018/02/22
-+ *license*: MIT
-+ *author*: tapsaman
++ **npm name:** react-another-dialog
++ **version:** 0.1.5
++ **date:** 2018/02/22
++ **license:** MIT
++ **author:** tapsaman
 
 
 
 *** WORK IN PROGRESS ***
+
+
+
+*************************
+
+
 
 
 
@@ -34,6 +40,12 @@ query | Array | n/a | Array of properties to render AnotherDialogInput-objects w
 verification | bool/string | false | If true, verificate response before onSuccess. Give a string to define the verification question (default: "Are you sure to proceed?").
 animateIn | function | n/a | Function to animate in the dialog the way you wish.<br>Run as ```animateIn(formElement, maskElement)```
 animateOut | function | n/a | Function to animate out the dialog the way you wish.<br>Run as ```animateOut(formElement, maskElement, after)```<br>**Note**: Run the 'after'-function when done!
+
+
+
+*************************
+
+
 
 
 

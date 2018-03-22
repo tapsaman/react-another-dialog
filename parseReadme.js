@@ -56,7 +56,7 @@ function extract(file, data) {
 			output += separator
 
 			if (iter === 0)
-				output += "*In file ["+file.basename+"]("+file.relative.replace(/\\/g,"//")+")*\n"
+				output += separator + "*In file ["+file.basename+"]("+file.relative.replace(/\\/g,"//")+")*\n"
 
 			output += res[1]
 		}
