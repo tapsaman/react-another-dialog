@@ -2,7 +2,7 @@ const fs = require('fs');
 const glob = require('glob-fs')({ gitignore: true })
 const package = require('./package.json')
 
-const separator = "<br><br><br>*************************<br><br><br>"
+const separator = "<br><br>\n*************************\n<br><br><br>"
 
 var output = "",
 	foundFiles = [], 
@@ -19,7 +19,7 @@ function getHeader() {
 			+ "\n+ **date:** " + getDateString()
 			+ "\n+ **license:** " + package.license
 			+ "\n+ **author:** " + package.author
-			+ "\n<br><br>*** WORK IN PROGRESS ***<br><br>"
+			+ "\n\n<br><br>\n*** WORK IN PROGRESS ***\n<br>"
 	}
 	return "";
 }
