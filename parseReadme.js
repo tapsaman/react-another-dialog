@@ -16,11 +16,11 @@ function getHeader() {
 		return "# AnotherDialog document\n\n"
 			+ package.description
 			+ "\n\n*npm name*: " + package.name
-			+ "\n\n*version*: " + package.version
-			+ "\n\n*date*: " + getDateString()
-			+ "\n\n*license*: " + package.license
-			+ "\n\n*author*: " + package.author
-			+ "\n\n*** WORK IN PROGRESS ***\n\n"
+			+ "\n*version*: " + package.version
+			+ "\n*date*: " + getDateString()
+			+ "\n*license*: " + package.license
+			+ "\n*author*: " + package.author
+			+ "\n\n\n*** WORK IN PROGRESS ***\n\n"
 	}
 	return "";
 }
