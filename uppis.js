@@ -28,7 +28,7 @@ try {
 }
 catch(ex) {
 
-	console.error("Error:")
+	console.error("\t> EXCEPTION")
 	console.error(ex)
 
 }
