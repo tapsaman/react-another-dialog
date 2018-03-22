@@ -1,0 +1,188 @@
+@id: a-dialog;
+
+.@{id}-mask {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background-color: #999;
+	background-color: #0009;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.@{id}-form:not(.no-mask) {
+	background-color: #fff;
+	color: #444;
+	border: 5px solid #444;
+	border-radius: 40px;
+	width: 100%;
+	max-width: 600px;
+	margin: auto;
+	padding: 25px;
+	max-height: 95%;
+}
+
+.@{id}-form {
+	overflow: auto;
+	box-sizing: border-box;
+
+	> h1 {
+		margin-top: 0;
+	}
+
+	.@{id}-main-message {
+		text-align: center;
+		margin-top: 25px;
+	}
+
+	.radio-span {
+		display: block;
+	}
+
+	input[type="submit"], input[type="button"] {
+		font-family: inherit;
+		font-size: inherit;
+		background-color: inherit;
+
+		display: inline-block;
+		margin: 5px;
+		padding: 4px 10px;
+		cursor: pointer;
+
+		border: 1px solid #444;
+		color: #444;
+
+		&:hover {
+			background-color: #000;
+			color: #fff;
+		}
+	}
+
+	.@{id}-subtitle {
+		> p {
+			margin: 5px 0;
+			font-style: italic;
+			text-align: center;
+		}
+	}
+
+	.@{id}-error {
+		color: red;
+	}
+
+	.@{id}-option-buttons {
+		text-align: center;
+	}
+}
+
+.@{id}-input {
+	margin-bottom: 10px;
+
+	.input-title {
+		margin: 0;	
+	}
+
+	> input[type="text"], 
+	> input[type="password"] {
+		background-color: transparent;
+		border: none;
+		border-bottom: 1px #444 solid;
+		color: inherit;
+		padding: 5px 0;
+	}
+}
+
+.@{id}-input:not(.inline) {
+	> input[type="text"], 
+	> input[type="password"] {
+		width: 100%;
+		font-size: 1.2em;
+	}
+}
+
+.@{id}-input.inline {
+	display: inline-block;
+	margin-right: 10px;
+
+	> .input-title {
+		font-size: 1em;
+		display: inline;
+		margin-right: 5px;
+	}
+
+	.react-numeric-input > input {
+		width: 120px;
+		max-width: 100%;
+	}
+}
+
+.@{id}-input-date {
+	.rdtPicker {
+		position: fixed;
+	}
+}
+
+.@{id}-input-group {
+	max-height: 250px;
+	overflow: auto;
+	border: 1px #000 inset;
+	padding: 5px;
+}
+
+.@{id}-input-addable {
+
+	.addable-add-rem-container {
+		.noselect;
+		text-align: center;
+		
+		> * {
+			margin: 0 5px;
+		}
+
+		.addable-add-rem {
+			cursor: pointer;
+			width: 25px;
+			display: inline-block;
+
+			&:hover {
+				color: #999;
+			}
+
+			&.addable-rem {
+				text-align: right;
+
+				&:hover::before {
+					content: "< "
+				}
+			}
+
+			&.addable-add {
+				text-align: left;
+
+				&:hover::after {
+					content: " >"
+				}
+			}
+		}
+	}
+
+	.addable-child {
+		padding: 10px;
+
+		&:nth-child(odd) {
+			background-color: #ddd;
+		}
+	}
+}
+
+.noselect {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
