@@ -1,6 +1,4 @@
 const fs = require('fs'); 
-const glob = require('glob-fs')({ gitignore: true })
-const package = require('./package.json')
 
 module.exports = parse
 
@@ -12,9 +10,10 @@ function parse(options) {
 	const {
 		srcFiles,
 		title,
+		npmPackage
 		outPath = "doc-parsed.md",
 		cutStart = "^^^^",
-		cutEnd = "^^^^"
+		cutEnd = "^^^^",
 	}
 	= options
 
@@ -47,8 +46,8 @@ function parse(options) {
 		return
 	}
 
-	output = (title ? title+"\n\n" : "")
-		+ getHeader()
+	output = (title ? "# "+title+"\n\n" : "")
+		+ getHeader(npmPackage)
 		+ output
 
 	fs.writeFile(outPath, output, function(err) {
@@ -80,22 +79,15 @@ function extract(filePath, data, exctractRegex) {
 	return output
 }
 
-const _srcFilePaths = [
-	"src/AnotherDialog.jsx",
-	"src/AnotherDialogInput.jsx"
-]
-
-
 var output = "",
 	foundFiles = [], 
 	extractCount = 0,
 	readCount = 0,
 	globEnd = false
 
-function getHeader() {
+function getHeader(package) {
 	if (package) {
-		return "# AnotherDialog document\n\n"
-			+ package.description
+		return package.description
 			+ "\n\n+ **npm name:** " + package.name
 			+ 	"\n+ **version:** " + package.version
 			+ 	"\n+ **date:** " + getDateString()
@@ -112,7 +104,7 @@ function getFileHeader(filePath) {
 		+ filePath.replace( /^.+[\/\\]/, "" )
 		+ "]("
 		// relative path
-		+ file.relative.replace(/\\/g,"//")+")*\n"
+		+ filePath.replace(/\\/g,"//")+")*\n"
 }
 
 glob.readdirStream('src/*')

@@ -1,4 +1,6 @@
 const { execSync } = require('child_process');
+const docParser = require('./doc-parser');
+const package = require('./package.json')
 
 const commitMsg = process.argv[2] || "nameless-commit" + new Date().toTimeString().slice(0,8)
 
@@ -19,6 +21,16 @@ try {
 
 	console.log("git add .")
 	execSync("git add .", {stdio:'inherit'})
+
+	docParser({
+		title: "AnotherDialog documentation"
+		srcFiles: [
+			"src/AnotherDialog.jsx",
+			"src/AnotherDialogInput.jsx",
+		]
+		outPath: "README.md",
+		npmPackage: package
+	})
 	
 	//console.log( execSync("git add .").toString() )
 	
