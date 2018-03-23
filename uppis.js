@@ -8,7 +8,7 @@ const commands = [
 	"git add .",
 	"git commit -m '"+commitMsg+"'",
 	"npm version patch",
-	"node parseReadme.js",
+	"node doc-parser.js",
 	"git add .",
 	"git commit --amend --no-edit",
 	"git push",
@@ -17,11 +17,16 @@ const commands = [
 
 try {
 
-	for (let i=0; i < commands.length; i++) {
-		console.log( "\t> " + commands[i] )
-		let stdout = execSync( commands[i] )
-		//console.log( stdout )
-	}
+	console.log("git add .")
+	execSync("git add .", {stdio:'inherit'})
+	
+	//console.log( execSync("git add .").toString() )
+	
+	//console.log("git add .")
+	//stdout = execSync("git add .")
+
+	//console.log( "\t> " + commands[0] )
+	//console.log( stdout )
 
 }
 catch(ex) {
