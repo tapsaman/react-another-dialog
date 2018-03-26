@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom';
 import NumericInput from 'react-numeric-input';
 import Datetime from 'react-datetime';
 import moment from 'moment';
-import 'react-datetime/css/react-datetime.css';
+//import 'react-datetime/css/react-datetime.css';
 
-import { CLASS_ID } from "./AnotherDialog"
+import { CLASS_ID } from "./AnotherDialog.jsx"
 
 /*^^^^
 ## class AnotherDialogInput

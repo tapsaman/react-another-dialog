@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-import AnotherDialogInput from "./AnotherDialogInput"
+import AnotherDialogInput from "./AnotherDialogInput.jsx"
 
 //require('moment/locale/fi');
 
