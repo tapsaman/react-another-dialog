@@ -4,8 +4,8 @@ Build upon (https://github.com/yogaboll/react-npm-component-starter)
 Modal dialog component aiming for API simplicity but still covering common more complex use cases.
 
 + **npm name:** react-another-dialog
-+ **version:** 0.1.26
-+ **date:** 2018/02/27 14:37:37
++ **version:** 0.1.27
++ **date:** 2018/02/27 14:39:00
 + **license:** MIT
 + **author:** tapsaman
 
