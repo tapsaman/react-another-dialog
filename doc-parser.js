@@ -62,10 +62,11 @@ function parse(options) {
 		+ getHeader(npmPackage)
 		+ output
 
-	console.log(666)
+	console.log(outPath)
 
+	let _out = outPath
 
-	fs.writeFile(outPath, output, function(err) {
+	fs.writeFile(_out, output, function(err) {
 	    if (err) throw err;
 	    console.log("Generated file "+outPath)
 	})
