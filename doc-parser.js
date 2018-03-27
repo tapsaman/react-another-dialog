@@ -30,6 +30,9 @@ function parse(options) {
 	let output = ""
 	const extractRegex = new RegExp(extractRxStr)
 
+	console.log(extractRegex)
+
+
 	if (!srcFiles)
 		throw new Error("Parameter error: no [srcFiles] in options")
 
@@ -67,9 +70,9 @@ function extract(filePath, data, extractRegex) {
 	let output, res, iter = 0
 
 	do {
-		console.log(123)
+		//console.log(123)
 		res = extractRegex.exec(data)
-		console.log(res)
+		//console.log(res)
 
 		if (res) {
 			output += separator
@@ -79,7 +82,7 @@ function extract(filePath, data, extractRegex) {
 
 			output += res[1]
 		}
-		console.log(789)
+		//console.log(789)
 
 
 		iter++;
