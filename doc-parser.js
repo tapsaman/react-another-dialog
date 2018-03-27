@@ -66,9 +66,9 @@ function parse(options) {
 
 	let _out = outPath
 
-	fs.writeFile("thing.txt", output, function(err) {
-	    if (err) throw err;
-	    console.log("Generated file "+outPath)
+	fs.writeFile("thing2.txt", "asdhei", function(err) {
+	    //if (err) throw err;
+	    //console.log("Generated file "+outPath)
 	})
 }
 
