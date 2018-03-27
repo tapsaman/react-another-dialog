@@ -17,18 +17,18 @@ function parse(options) {
 	}
 	= options
 
+	const extractRxStr
+		= cutStart.replace(regexOperators, '\\$&')
+		+ "([\\s\\S]+?)"
+		+ cutEnd.replace(regexOperators, '\\$&')
+
+
+
 	console.log("¤¤¤¤¤¤¤")
-	console.log(cutStart)
-	console.log(cutStart.replace(regexOperators, '\\$&'))
-	console.log(cutEnd)
-	console.log(cutEnd.replace(regexOperators, '\\$&'))
+	console.log(extractRxStr)
 
 	let output = ""
-	const exctractRegex = new RegExp(
-		cutStart.replace(regexOperators, '\\$&'),
-		+ "([\\s\\S]+?)"
-		+ cutEnd.replace(regexOperators, '\\$&'),
-	)
+	const extractRegex = new RegExp(extractRxStr)
 
 	if (!srcFiles)
 		throw new Error("Parameter error: no [srcFiles] in options")
@@ -62,7 +62,7 @@ function parse(options) {
 	})
 }
 
-function extract(filePath, data, exctractRegex) {
+function extract(filePath, data, extractRegex) {
 
 	let output, res, iter = 0
 
