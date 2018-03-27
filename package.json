@@ -1,6 +1,6 @@
 {
 	"name": "react-another-dialog",
-	"version": "0.1.17",
+	"version": "0.1.18",
 	"description": "Modal dialog component aiming for API simplicity but still covering common more complex use cases.",
 	"main": "lib/index.js",
 	"scripts": {
