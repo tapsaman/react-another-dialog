@@ -39,7 +39,7 @@ function parse(options) {
 		const filePath = srcFiles[i]
 		console.log("Reading "+filePath)
 		const contents = fs.readFileSync(filePath, 'utf8')
-		output += extract(filePath, contents, exctractRegex)
+		output += extract(filePath, contents, extractRegex)
 	}
 
 	// Write output
