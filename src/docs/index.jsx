@@ -1,11 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import Velocity from 'velocity-animate';
+import React from "react";
+import { render } from "react-dom";
+import Velocity from "velocity-animate";
 
-import AnotherDialog from "./AnotherDialog"
-import AnotherDialogInput from "./AnotherDialogInput"
+import AnotherDialog, { AnotherDialogInput } from "../../lib";
+import "./styles.css";
 
-class AnotherDialogExampleApp extends React.Component {
+class Demo extends React.Component {
 
 	constructor(props)
 	{
@@ -154,6 +154,8 @@ class AnotherDialogExampleApp extends React.Component {
 	}
 
 	exampleDialogAnimateIn(form, mask, doAfter) {
+		console.log("#", form)
+		console.log("#", mask)
 		Velocity(form, "fadeIn", doAfter)
 	}
 
@@ -163,7 +165,4 @@ class AnotherDialogExampleApp extends React.Component {
 
 }
 
-ReactDOM.render(
-	<AnotherDialogExampleApp />,
-	document.getElementById("app")
-)
+render(<Demo />, document.getElementById("app"));

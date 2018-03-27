@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import NumericInput from 'react-numeric-input';
 import Datetime from 'react-datetime';
 import moment from 'moment';
-import 'react-datetime/css/react-datetime.css';
+//import 'react-datetime/css/react-datetime.css';
 
-import { CLASS_ID } from "./AnotherDialog"
+const CLASS_ID = "a-dialog"
 
 /*^^^^
 ## class AnotherDialogInput
@@ -497,19 +496,19 @@ export default class AnotherDialogInput extends React.Component {
 }
 
 
-export class TextADInput extends AnotherDialogInput {
+class TextADInput extends AnotherDialogInput {
 
 	type = "text"
 
 }
 
-export class PasswordADInput extends AnotherDialogInput {
+class PasswordADInput extends AnotherDialogInput {
 
 	type = "password"
 
 }
 
-export class CheckADInput extends AnotherDialogInput {
+class CheckADInput extends AnotherDialogInput {
 	
 	type = "check"
 
@@ -558,7 +557,7 @@ export class CheckADInput extends AnotherDialogInput {
 	}
 }
 
-export class NumberADInput extends AnotherDialogInput {
+class NumberADInput extends AnotherDialogInput {
 	
 	type = "number"
 
@@ -614,7 +613,7 @@ export class NumberADInput extends AnotherDialogInput {
 	}
 }
 
-export class DateADInput extends AnotherDialogInput {
+class DateADInput extends AnotherDialogInput {
 	
 	type = "date"
 
@@ -734,7 +733,7 @@ export class DateADInput extends AnotherDialogInput {
 	}
 }
 
-export class SelectADInput extends AnotherDialogInput {
+class SelectADInput extends AnotherDialogInput {
 
 	type = "select"
 
@@ -819,7 +818,7 @@ export class SelectADInput extends AnotherDialogInput {
 	}
 }
 
-export class GroupADInput extends AnotherDialogInput {
+class GroupADInput extends AnotherDialogInput {
 	
 	type = "group"
 
@@ -876,7 +875,7 @@ export class GroupADInput extends AnotherDialogInput {
 	}
 }
 
-export class AddableADInput extends AnotherDialogInput {
+class AddableADInput extends AnotherDialogInput {
 
 	type = "addable"
 
@@ -1046,7 +1045,7 @@ export class AddableADInput extends AnotherDialogInput {
 	}
 }
 
-export class HiddenADInput extends AnotherDialogInput {
+class HiddenADInput extends AnotherDialogInput {
 
 	type = "hidden"
 
@@ -1078,3 +1077,14 @@ export class HiddenADInput extends AnotherDialogInput {
 }
 
 AnotherDialogInput.__setTypes()
+/*
+module.exports.default = AnotherDialogInput
+module.exports.TextADInput = TextADInput
+module.exports.PasswordADInput = PasswordADInput
+module.exports.CheckADInput = CheckADInput
+module.exports.NumberADInput = NumberADInput
+module.exports.DateADInput = DateADInput
+module.exports.SelectADInput = SelectADInput
+module.exports.GroupADInput = GroupADInput
+module.exports.AddableADInput = AddableADInput
+module.exports.HiddenADInput = HiddenADInput*/

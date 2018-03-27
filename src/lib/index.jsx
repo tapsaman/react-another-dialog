@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 
 import AnotherDialogInput from "./AnotherDialogInput"
 
+export { AnotherDialogInput }
+
 //require('moment/locale/fi');
 
 //module.exports.AnotherDialog = AnotherDialog
@@ -16,14 +18,19 @@ React-component for building your dialog element in.
 
 ### Properties
 
-Name | Type | Default | Description
------|------|---------|------------
-title | string | n/a | Shown title (optional).
-subtitle | string | n/a | Shown subtitle. Included HTML will be rendered (optional).
-query | Array | n/a | Array of properties to render AnotherDialogInput-objects with OR ready-made input components (extending AnotherDialogInput)
-verification | bool/string | false | If true, verificate response before onSuccess. Give a string to define the verification question (default: "Are you sure to proceed?").
-animateIn | function | n/a | Function to animate in the dialog the way you wish.<br>Run as ```animateIn(formElement, maskElement)```
-animateOut | function | n/a | Function to animate out the dialog the way you wish.<br>Run as ```animateOut(formElement, maskElement, after)```<br>**Note**: Run the 'after'-function when done!
+| Name | Type | Default | Description
+| -----|------|---------|------------
+| title | string | n/a | Shown title (optional).
+| subtitle | string | n/a | Shown subtitle. Included HTML will be rendered (optional).
+| query | Array | n/a | Array of properties to render AnotherDialogInput-objects with OR ready-made input components (extending AnotherDialogInput)
+| verification | bool/string | false | If true, verificate response before onSuccess. Give a string to define the verification question (default: "Are you sure to proceed?").
+| animateIn | function | n/a | Function to animate in the dialog the way you wish.<br>Run as ```animateIn(formElement, maskElement)```
+| animateOut | function | n/a | Function to animate out the dialog the way you wish.<br>Run as ```animateOut(formElement, maskElement, after)```<br>**Note**: Run the 'after'-function when done!
+| onSuccess
+| onCancel
+| onFinish
+| postValidate
+| options | array | [{ type:"submit", value:"OK" },<br>{ type:"cancel", value:"Cancel" }] | Customize the main buttons. Additionals can be included:<br>{type: "button", value: "Example", onClick: function() {...}}
 
 ^^^^*/
 
@@ -48,35 +55,7 @@ export default class AnotherDialog extends React.Component {
 		"children"		// array of inputs for "addable"
 	]
 
-	/**
-     * Create a dot.
-     * @param {string} title - Optional title.
-     * @param {string} subtitle - Optional subtitle.
-     * @param {Array} query - Array of objects defining questions by query params.
-     * @param {bool|string} verification - Define if dialog should ask for verification 
-     		when submitting, before running onSuccess.
-     		Give a string to use as verification message (default: "Are you sure to proceed?").
-	 * @param {function} animateIn - Function to animate in the dialog the way you wish.
-	 * 		Run as ```animateIn(formElement, maskElement)```
-     */
 	constructor(props)
-	/* expects as props:
-	 * @title			Optional title
-	 * @subtitle		Optional subtitle
-	 * @query			Array of objects defining questions by query params
-	 * @show 			
-	 * @hide 			
-	 * @onSuccess
-	 * @onCancel
-	 * @onFinish
-	 * @postValidate 	Function to validate the response berore onSuccess
-	 * @verification 	If should ask for verification before running onSuccess,
-					 	bool or string defining verification question 
-	 * @options 		Opt. array, customize the main buttons.
-	 * 					Default: [{ type:"submit", value:"OK" },{ type:"cancel", value:"Cancel" }]
-	 *					Additionals can be included:
-	 * 					{type: "button", value: "Example", onClick: function() {...}}
-	 */
 	{
 		super(props);
 		this.state = {
@@ -124,7 +103,7 @@ export default class AnotherDialog extends React.Component {
 		= this.props
 
 		if (animateIn)
-			animateIn(this.refs.form, this.refs.mask)
+			animateIn(this.form, this.mask)
 
 		setTimeout(this.focusOnFirstInput, 50)
 	}
@@ -149,7 +128,7 @@ export default class AnotherDialog extends React.Component {
 		return (
 			<div 
 				className={maskClassName || CLASS_ID+"-mask"}
-				ref="mask"
+				ref={mask => this.mask=mask}
 				tabIndex="0"
 				onKeyUp={this.onKey}
 				>
@@ -157,7 +136,7 @@ export default class AnotherDialog extends React.Component {
 					//className={CLASS_ID+"form "+(className || "")}
 					className={className || CLASS_ID+"-form"}
 					style={style}
-					ref="form"
+					ref={form => this.form=form}
 					action="javascript:;"
 					onSubmit={verificating ? this.success : this.validate}
 					>
@@ -427,7 +406,7 @@ export default class AnotherDialog extends React.Component {
 
 	success = () => {
 		if (this.props.animateOut)
-			this.props.animateOut(this.refs.form, this.refs.mask, this.closeSuccess)
+			this.props.animateOut(this.form, this.mask, this.closeSuccess)
 		else
 			this.closeSuccess()
 		
@@ -442,7 +421,7 @@ export default class AnotherDialog extends React.Component {
 
 	cancel = () => {
 		if (this.props.animateOut)
-			this.props.animateOut(this.refs.form, this.refs.mask, this.closeCancel)
+			this.props.animateOut(this.form, this.mask, this.closeCancel)
 		else
 			this.closeCancel()
 	}

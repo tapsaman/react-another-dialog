@@ -1,95 +1,35 @@
-const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
-
-/* BUG:
-webpack-dev-server DOES NOT hot reload @imported less-files,
-only "parents" included in scenes.
-*/
-
-const extractLess = new ExtractTextPlugin({
-    filename: "[name].css"
-});
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-
-	mode: 'development',
-
-	entry: 
-	{
-		"react-another-dialog": "./src/AnotherDialog.jsx",
-		"style": 				"./src/AnotherDialog.less",
-		"example": 				"./src/example.jsx",
-		"example-style": 		"./src/example.less"
-	},
-
-	module: {
-		rules: [
-			{
-				test: /\.jsx?$/,
-				exclude: /node_modules/,
-				use: {
-					loader: "babel-loader"
-				}
-			},
-			{
-				test: /\.css$/,
-				use: [{
-					loader: "style-loader"
-				},
-				{
-					loader: "css-loader"
-				}]
-			},
-			{
-				test: /\.less$/,
-				use: extractLess.extract(
-				{
-					use: [
-					/*{
-						loader: "style-loader"
-					},*/
-					{
-						loader: "css-loader",
-						options: { url: false }
-					},
-					{
-						loader: "less-loader",
-						options: {
-							// define paths for @imports
-							// because using webpack's resolver tries to
-							// look up @import web urls as relative file paths
-							paths: ["src"],
-							// without this @imported less-file urls will 
-							// for some reason be changed to 
-							// '../../../' etc. '/src/'
-							relativeUrls: false,
-
-							//env: "production"
-						}
-
-					}]
-				})
-			}]
-	},
-
-	resolve: {
-		modules: ["src", "node_modules"],
-		extensions: ['.js', '.jsx']
-	},
-
-	output: {
-		path: __dirname + '/dev',
-		publicPath: '/',
-		filename: '[name].js',
-	},
-
-	devServer: {
-		contentBase: './dev',
-		hot: true
-	},
-
-	plugins: [
-		new webpack.HotModuleReplacementPlugin(),
-		extractLess
-	]
+  entry: path.join(__dirname, "src/docs"),
+  output: {
+    path: path.join(__dirname, "docs"),
+    filename: "bundle.js"
+  },
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        use: "babel-loader",
+        exclude: /node_modules/
+      },
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"]
+      }
+    ]
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, "src/docs/index.html")
+    })
+  ],
+  resolve: {
+    extensions: [".js", ".jsx"]
+  },
+  devServer: {
+    contentBase: path.join(__dirname, "docs"),
+    port: 8000
+  }
 };
