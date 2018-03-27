@@ -1,6 +1,6 @@
 {
 	"name": "react-another-dialog",
-	"version": "0.1.12",
+	"version": "0.1.13",
 	"description": "Modal dialog component aiming for API simplicity but still covering common more complex use cases.",
 	"main": "lib/index.js",
 	"scripts": {
@@ -10,14 +10,12 @@
 		"libless:watch": "autoless src/lib lib",
 		"lib": "npm-run-all libjsx libless",
 		"lib:watch": "npm-run-all --parallel libjsx:watch libless:watch",
-
 		"docsjsx": "webpack-dev-server",
 		"docsjsx:prod": "webpack -p",
 		"docsless": "autoless src/docs docs --no-watch",
 		"docsless:watch": "autoless src/docs docs",
 		"docs": "npm-run-all --parallel docsjsx docsless:watch",
 		"docs:prod": "npm-run-all docsjsx:prod docsless",
-
 		"upd": "webpack -p && node uppis.js"
 	},
 	"keywords": [],
