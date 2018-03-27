@@ -2,7 +2,7 @@ const { execSync } = require('child_process');
 const docParser = require('./doc-parser');
 const package = require('./package.json')
 
-const commitMsg = "nameless-commit" + new Date().toTimeString().slice(0,8)
+var commitMsg = "nameless-commit" + new Date().toTimeString().slice(0,8)
 const newversion = process.argv[2] || "patch"
 
 console.log("Push npm version "+newversion)

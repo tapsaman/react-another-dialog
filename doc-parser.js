@@ -55,20 +55,13 @@ function parse(options) {
 		return
 	}
 
-	console.log(456)
-
-
 	output = (title ? "# "+title+"\n\n" : "")
 		+ getHeader(npmPackage)
 		+ output
 
-	console.log(outPath)
-
-	let _out = outPath
-
-	fs.writeFile("thing2.txt", "asdhei", function(err) {
-	    //if (err) throw err;
-	    //console.log("Generated file "+outPath)
+	fs.writeFile(outPath, output, function(err) {
+	    if (err) throw err;
+	    console.log("Generated file "+outPath)
 	})
 }
 
