@@ -59,10 +59,13 @@ function parse(options) {
 		+ getHeader(npmPackage)
 		+ output
 
-	fs.writeFile(outPath, output, function(err) {
+	fs.writeFileSync(outPath, output)
+	console.log("Generated file "+outPath)
+	
+	/*fs.writeFile(outPath, output, function(err) {
 	    if (err) throw err;
 	    console.log("Generated file "+outPath)
-	})
+	})*/
 }
 
 function extract(filePath, data, extractRegex) {
