@@ -28,7 +28,7 @@ function parse(options) {
 	console.log(extractRxStr)
 
 	let output = ""
-	const extractRegex = new RegExp(extractRxStr)
+	const extractRegex = new RegExp(extractRxStr, "g")
 
 	console.log(extractRegex)
 
