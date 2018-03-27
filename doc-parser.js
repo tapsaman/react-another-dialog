@@ -55,9 +55,15 @@ function parse(options) {
 		return
 	}
 
+	console.log(456)
+
+
 	output = (title ? "# "+title+"\n\n" : "")
 		+ getHeader(npmPackage)
 		+ output
+
+	console.log(666)
+
 
 	fs.writeFile(outPath, output, function(err) {
 	    if (err) throw err;
