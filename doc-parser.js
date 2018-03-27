@@ -10,10 +10,10 @@ function parse(options) {
 	const {
 		srcFiles,
 		title,
-		npmPackage
+		npmPackage,
 		outPath = "doc-parsed.md",
 		cutStart = "^^^^",
-		cutEnd = "^^^^",
+		cutEnd = "^^^^"
 	}
 	= options
 
@@ -106,26 +106,6 @@ function getFileHeader(filePath) {
 		// relative path
 		+ filePath.replace(/\\/g,"//")+")*\n"
 }
-
-glob.readdirStream('src/*')
-	.on('data', function (file) {
-		console.log("Reading " + file.path)
-		//console.log(Object.keys(file).map(o=>o+" => "+file[o]))
-		//fs.readFile(file.path, 'utf8')
-		const contents = fs.readFileSync(file.path, 'utf8')
-		extract(file, contents)
-		readCount++
-	})
-	.on('end', function() {
-		globEnd = true
-		writeOutput()
-	})
-	.on('error', function(ex) {
-		console.error(ex)
-		readCount++
-	})
-
-
 
 function getDateString()
 {

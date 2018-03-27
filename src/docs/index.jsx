@@ -2,8 +2,7 @@ import React from "react";
 import { render } from "react-dom";
 import Velocity from "velocity-animate";
 
-import AnotherDialog, { AnotherDialogInput } from "../../lib";
-import "./styles.css";
+import AnotherDialog, { AnotherDialogInput } from "../../lib/AnotherDialog.js";
 
 class Demo extends React.Component {
 
@@ -156,7 +155,14 @@ class Demo extends React.Component {
 	exampleDialogAnimateIn(form, mask, doAfter) {
 		console.log("#", form)
 		console.log("#", mask)
-		Velocity(form, "fadeIn", doAfter)
+		//Velocity(form, "fadeIn", doAfter)
+
+		Velocity(form, {
+			scale: [1, 0]
+		}, {
+			easing: [500, 20]
+		})
+
 	}
 
 	exampleDialogAnimateOut(form, mask, doAfter) {
