@@ -67,7 +67,9 @@ function extract(filePath, data, extractRegex) {
 	let output, res, iter = 0
 
 	do {
+		console.log(123)
 		res = extractRegex.exec(data)
+		console.log(456)
 
 		if (res) {
 			output += separator
@@ -77,6 +79,8 @@ function extract(filePath, data, extractRegex) {
 
 			output += res[1]
 		}
+		console.log(789)
+
 
 		iter++;
 
