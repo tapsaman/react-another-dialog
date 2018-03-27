@@ -61,7 +61,7 @@ function parse(options) {
 
 	fs.writeFileSync(outPath, output)
 	console.log("Generated file "+outPath)
-	
+
 	/*fs.writeFile(outPath, output, function(err) {
 	    if (err) throw err;
 	    console.log("Generated file "+outPath)
@@ -73,9 +73,7 @@ function extract(filePath, data, extractRegex) {
 	let output, res, iter = 0
 
 	do {
-		//console.log(123)
 		res = extractRegex.exec(data)
-		//console.log(res)
 
 		if (res) {
 			output += separator
@@ -85,8 +83,6 @@ function extract(filePath, data, extractRegex) {
 
 			output += res[1]
 		}
-		//console.log(789)
-
 
 		iter++;
 
