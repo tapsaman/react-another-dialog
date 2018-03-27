@@ -23,8 +23,8 @@ try {
 		title: "react-another-dialog documentation\n"
 			+"Build upon (https://github.com/yogaboll/react-npm-component-starter)",
 		srcFiles: [
-			"lib/AnotherDialog.js",
-			"lib/AnotherDialogInput.js"
+			"src/lib/AnotherDialog.jsx",
+			"src/lib/AnotherDialogInput.jsx"
 		],
 		outPath: "README.md",
 		npmPackage: package
