@@ -4,6 +4,8 @@ import Velocity from "velocity-animate";
 
 import AnotherDialog, { AnotherDialogInput } from "../../lib/AnotherDialog.js";
 
+// todo: add examples
+
 class Demo extends React.Component {
 
 	constructor(props)
