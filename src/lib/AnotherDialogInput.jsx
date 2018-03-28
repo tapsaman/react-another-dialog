@@ -851,7 +851,7 @@ class SelectADInput extends AnotherDialogInput {
 				})
 			}
 
-			if (!foundValue && opt[opt.length-1].value===value)
+			if (!foundValue && opt[opt.length-1] && opt[opt.length-1].value===value)
 				foundValue = true
 		}
 
