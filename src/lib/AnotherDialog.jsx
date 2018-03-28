@@ -223,15 +223,16 @@ export default class AnotherDialog extends React.Component {
 			mainMessage
 		})*/
 
-		for (let i=0; i < query.length; i++)
-		{
-			const q = query[i]
-			const result = this.formElems[q.name || "input"+i].validate()
+		if (query)
+			for (let i=0; i < query.length; i++)
+			{
+				const q = query[i]
+				const result = this.formElems[q.name || "input"+i].validate()
 
-			if (!result) {
-				allOK = false
+				if (!result) {
+					allOK = false
+				}
 			}
-		}
 
 		if (allOK && postValidate) {
 			let pv = postValidate(this.output)

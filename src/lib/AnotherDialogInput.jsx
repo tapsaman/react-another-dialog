@@ -546,12 +546,13 @@ class CheckADInput extends AnotherDialogInput {
 
 		return (
 			<span className={CLASS_ID+"-input "+CLASS_ID+"-input-"+this.type+" "+(className || "")}>
-				{title && <h2 className="input-title">{title}</h2>}
+				{title && !/inline/.test(className) && <h2 className="input-title">{title}</h2>}
 				<input name={name}
 					type="checkbox"
 					checked={value}
 					onChange={this.setInputValue}
 					/>
+				{title && /inline/.test(className) && <h2 className="input-title">{title}</h2>}
 			</span>
 		)
 	}
@@ -849,7 +850,8 @@ class SelectADInput extends AnotherDialogInput {
 						: props.opt[i])
 				})
 			}
-			if (!foundValue && opt[opt.length-1]===value)
+
+			if (!foundValue && opt[opt.length-1].value===value)
 				foundValue = true
 		}
 

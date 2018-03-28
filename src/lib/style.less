@@ -93,6 +93,15 @@
 		color: inherit;
 		padding: 5px 0;
 	}
+
+	.react-numeric-input {
+		> b {
+			display: none;
+		}
+		&:hover > b {
+			display: block;
+		}
+	}
 }
 
 .@{id}-input:not(.inline) {
@@ -111,11 +120,16 @@
 		font-size: 1em;
 		display: inline;
 		margin-right: 5px;
+		font-weight: normal;
 	}
 
 	.react-numeric-input > input {
 		width: 120px;
 		max-width: 100%;
+	}
+
+	> input[type="checkbox"] {
+		margin-right: 5px;
 	}
 }
 

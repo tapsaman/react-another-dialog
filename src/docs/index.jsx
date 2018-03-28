@@ -52,7 +52,8 @@ class Demo extends React.Component {
 						title: "Dialog subtitle",
 						type: "text", 
 						className: "inline"
-					},/*
+					},
+					/*
 					{
 						name: "grouptest",
 						title: "group test",

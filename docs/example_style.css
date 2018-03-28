@@ -77,6 +77,12 @@
   color: inherit;
   padding: 5px 0;
 }
+.a-dialog-input .react-numeric-input > b {
+  display: none;
+}
+.a-dialog-input .react-numeric-input:hover > b {
+  display: block;
+}
 .a-dialog-input:not(.inline) > input[type="text"],
 .a-dialog-input:not(.inline) > input[type="password"] {
   width: 100%;
@@ -90,10 +96,14 @@
   font-size: 1em;
   display: inline;
   margin-right: 5px;
+  font-weight: normal;
 }
 .a-dialog-input.inline .react-numeric-input > input {
   width: 120px;
   max-width: 100%;
+}
+.a-dialog-input.inline > input[type="checkbox"] {
+  margin-right: 5px;
 }
 .a-dialog-input-date .rdtPicker {
   position: fixed;
