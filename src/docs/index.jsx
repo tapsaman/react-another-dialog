@@ -12,6 +12,8 @@ class Demo extends React.Component {
 		this.state = {
 			showExampleDialog: false
 		}
+
+		this.inputTypeNames = AnotherDialogInput.types.map(t => t.name)
 	}
 
 	componentDidCatch(error, info)
@@ -30,7 +32,6 @@ class Demo extends React.Component {
 		} 
 		= this.state
 
-		const inputTypeNames = AnotherDialogInput.types.map(t => t.name)
  
 		return (
 			<div>
@@ -49,6 +50,17 @@ class Demo extends React.Component {
 						title: "Dialog subtitle",
 						type: "text", 
 						className: "inline"
+					},
+					{
+						name: "radiotest",
+						title: "radio test",
+						type: "radio",
+						className: "inline",
+						opt: [{
+							value: 5, title: "terve",
+						},{
+							value: 6, title: "moi"
+						}]
 					},
 					{
 						name: "query",
@@ -71,8 +83,8 @@ class Demo extends React.Component {
 							title: "type",
 							name: "type",
 							type: "select",
-							opt: inputTypeNames,
-							optTitles: inputTypeNames
+							opt: this.inputTypeNames,
+							optTitles: this.inputTypeNames
 						},
 						{
 							title: "className",

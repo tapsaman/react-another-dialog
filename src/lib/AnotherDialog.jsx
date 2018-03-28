@@ -194,7 +194,6 @@ export default class AnotherDialog extends React.Component {
 	}
 
 	setInputValue = (value, name, index) => {
-		console.log("set a-dialog "+name, value)
 		this.output[name] = value
 	}
  

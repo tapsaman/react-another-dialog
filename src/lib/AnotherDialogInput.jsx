@@ -61,7 +61,7 @@ export default class AnotherDialogInput extends React.Component {
 		{
 			name: "radio",
 			regx: /^rad(io)?$/,
-			comp: null//RadioADInput
+			comp: RadioADInput
 		},
 		{
 			name: "select",
@@ -515,14 +515,14 @@ class CheckADInput extends AnotherDialogInput {
 	propsToState(props) {
 		return {
 			value: this.state.value===undefined 
-				? props.init
-				: this.state.value
+				? !!props.init
+				: !!this.state.value
 	 	}
 	}
 
 	setInputValue = (inputValue, name, index) =>
 	{
-		value = inputValue.target.checked
+		const value = inputValue.target.checked
 		
 		this.setState({
 			value: value
@@ -731,6 +731,94 @@ class DateADInput extends AnotherDialogInput {
 			</div>
 		)
 	}
+}
+
+class RadioADInput extends AnotherDialogInput {
+
+	type = "radio"
+
+	propsToState(props)
+	{
+		var value = this.state.value || props.init
+		const opt = []
+		const optMax = Math.max(
+			props.opt ? props.opt.length : 0,
+			props.optTitles ? props.optTitles.length : 0)
+		let foundValue = false
+		
+		for (let i=0; i < optMax; i++)
+		{
+			if (props.opt && typeof props.opt[i] === "object") {
+				opt.push(props.opt[i])
+			}
+			else {
+				opt.push({
+					value: (props.opt && props.opt[i] 
+						? props.opt[i] 
+						: null),
+					title: (props.optTitles && props.optTitles[i] 
+						? props.optTitles[i] 
+						: props.opt[i])
+				})
+			}
+			if (!foundValue && opt[opt.length-1]===value)
+				foundValue = true
+		}
+
+		if (!foundValue) {
+			for (let i=0; i < optMax; i++)
+				if (opt[i].value) {
+					value = opt[i].value
+					break;
+				}
+		}
+
+		return {
+			//...super.propsToState(props),
+			opt: opt,
+			value: value
+		}
+	}
+
+	render()
+	{
+		const {
+			value,
+			opt,
+			errorMessage
+		}
+		 = this.state
+		const {
+			title, 	
+			name,
+			disabled,
+			className
+		}
+		 = this.props
+		 
+
+		return (
+			<div className={CLASS_ID+"-input "+CLASS_ID+"-input-"+this.type+" "+(className || "")}>
+				{title && <h2 className="input-title">{title}</h2>}
+				{opt.map((o,i) =>
+						<span key={i} className="radio-span">
+							<input name={o.name}
+								type="radio"
+								//defaultChecked={o.init ? question.init===opt : (i===0?true:false)}
+								disabled={disabled}
+								value={o.value}
+								checked={value==o.value}
+								onChange={this.setInputValue}
+								/>
+							<span>{o.title}</span>
+						</span>)
+				}
+				{errorMessage && <p className={CLASS_ID+"-error-message"}>{errorMessage}</p>}
+			</div>
+		)
+
+	}
+
 }
 
 class SelectADInput extends AnotherDialogInput {
