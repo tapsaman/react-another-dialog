@@ -2,7 +2,7 @@
 	"name": "react-another-dialog",
 	"version": "0.1.28",
 	"description": "Modal dialog component aiming for API simplicity but still covering common more complex use cases.",
-	"main": "lib/index.js",
+	"main": "lib/AnotherDialog.js",
 	"scripts": {
 		"libjsx": "babel src/lib -d lib",
 		"libjsx:watch": "babel src/lib -w -d lib",

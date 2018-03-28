@@ -100,7 +100,8 @@ var output = "",
 function getHeader(package) {
 	if (package) {
 		return package.description
-			+ "\n\n+ **npm name:** " + package.name
+			+ "\n\n+ **package name:** " + package.name
+			+ 	"\n+ **main:** " + package.main
 			+ 	"\n+ **version:** " + package.version
 			+ 	"\n+ **date:** " + getDateString()
 			+ 	"\n+ **license:** " + package.license
