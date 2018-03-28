@@ -233,6 +233,12 @@ export default class AnotherDialog extends React.Component {
 			}
 		}
 
+		if (allOK && postValidate) {
+			let pv = postValidate(this.output)
+			allOK = pv.pass
+			mainMessage = pv.message
+		}
+
 		if (allOK) {
 			if (verification)
 			{

@@ -795,7 +795,7 @@ class RadioADInput extends AnotherDialogInput {
 			className
 		}
 		 = this.props
-		 
+
 
 		return (
 			<div className={CLASS_ID+"-input "+CLASS_ID+"-input-"+this.type+" "+(className || "")}>
@@ -955,7 +955,7 @@ class GroupADInput extends AnotherDialogInput {
 						key: i,
 						index: i,
 						onChange: this.setInputValue,
-						ref: (el) => this.formElems[q.name || index] = el
+						ref: (el) => this.formElems[q.name || i] = el
 					})
 				)}
 			</div>

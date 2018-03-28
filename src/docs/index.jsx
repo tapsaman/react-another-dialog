@@ -50,18 +50,32 @@ class Demo extends React.Component {
 						title: "Dialog subtitle",
 						type: "text", 
 						className: "inline"
-					},
+					},/*
 					{
-						name: "radiotest",
-						title: "radio test",
-						type: "radio",
-						className: "inline",
-						opt: [{
-							value: 5, title: "terve",
-						},{
-							value: 6, title: "moi"
-						}]
-					},
+						name: "grouptest",
+						title: "group test",
+						type: "group",
+						children: [
+							{
+								type: "check",
+								title: "title1",
+								name: "name1",
+								index: 0
+							},
+							{
+								type: "check",
+								title: "title2",
+								name: "name2",
+								index: 1
+							},
+							{
+								type: "check",
+								title: "title2",
+								name: "name3",
+								index: 2
+							},
+						]
+					},*/
 					{
 						name: "query",
 						title: "Dialog inputs",
