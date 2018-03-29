@@ -191,23 +191,30 @@ export default class AnotherDialogInput extends React.Component {
 		
 		for (let i=0; i < newOptMax; i++)
 		{
-			const oldOption = (props.opt && props.opt[i]) || null
+			let oldOption
 			let newOption
 
+			if (props.opt && (props.opt[i] || props.opt[i]===0))
+				oldOption = props.opt[i]
+			else 
+				oldOption = null
+
 			if (oldOption && typeof oldOption === "object") {
-				newOpt[i] = newOption = oldOption
+				newOption = oldOption
 			}
 			else {
-				const oldTitle = (props.opTitles && props.opTitles[i]) || null
+				const oldTitle = (props.optTitles && props.optTitles[i]) || null
 
-				newOpt[i] = newOption = {
+				newOption = {
 					value: oldOption || null,
-					title: oldTitle || oldOption || "null"
+					title: oldTitle || (oldOption===null ? "---":oldOption)
 				}
 			}
 
 			if (searchForInit && newOption.value===value)
 				searchForInit = false
+
+			newOpt.push( newOption )
 		}
 
 		// If props.init not found in props.opt, set initial value to first  not null

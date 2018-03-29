@@ -83,6 +83,11 @@
 .a-dialog-input .react-numeric-input:hover > b {
   display: block;
 }
+.a-dialog-input select option:disabled {
+  font-weight: bold;
+  background-color: #888;
+  color: #fff;
+}
 .a-dialog-input:not(.inline) > input[type="text"],
 .a-dialog-input:not(.inline) > input[type="password"] {
   width: 100%;
