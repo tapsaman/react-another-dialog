@@ -53,6 +53,21 @@ class Demo extends React.Component {
 						type: "text", 
 						className: "inline"
 					},
+					{
+						name: "select null test",
+						title: "select null test",
+						type: "select",
+						opt: [null,0,1,2,3,null,7],
+						optTitles: ["title","thing1","thing2","title2","thing2.1"]
+						/*opt: [{
+							value: null,
+							title: "thing",
+						}, {
+							value: 123,
+							title: "hei"
+						}
+						]*/
+					},
 					/*
 					{
 						name: "grouptest",

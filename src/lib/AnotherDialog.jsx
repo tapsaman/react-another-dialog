@@ -90,11 +90,11 @@ export default class AnotherDialog extends React.Component {
 		}
 	}
 
-	componentDidCatch(error, info)
+	/*componentDidCatch(error, info)
 	{
 		console.error("AnotherDialog Error")
 		console.error(error, info)
-	}
+	}*/
 
 	componentDidMount() {
 		const {
@@ -210,7 +210,7 @@ export default class AnotherDialog extends React.Component {
 			errorMessages = [],
 			mainMessage = ""
 
-		console.log("output: ", this.output);
+		console.log("Dialog response: ", this.output);
 		/*
 		if (allOK && this.props.postValidate) {
 			let pv = this.props.postValidate(this.output)

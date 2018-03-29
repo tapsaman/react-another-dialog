@@ -133,9 +133,9 @@ export default class AnotherDialogInput extends React.Component {
 	}
 
 	propsToState(props) {
-		var max, 
+		let max, 
 			min,
-			value = this.state.value || props.init || ""
+			value
 
 		if (props.range)
 		{
@@ -143,6 +143,13 @@ export default class AnotherDialogInput extends React.Component {
 			min = Number( nums[0] )
 			max = Number( nums[1] )
 		}
+
+		if (this.state.value || this.state.value===0) 
+			value = this.state.value
+		else if (props.init || props.init===0)
+			value = props.init
+		else
+			value = ""
 
 		return {
 			min: this.state.min || min || props.min, 
@@ -168,6 +175,54 @@ export default class AnotherDialogInput extends React.Component {
 			})
 
 			this.props.onChange(value, this.props.name, this.props.index)
+		}
+	}
+
+	// works for select only .. for now
+	static optBuilder(props, state)
+	{
+		var value = state.value || props.init
+		const newOpt = []
+		const newOptMax = Math.max(
+			props.opt ? props.opt.length : 0,
+			props.optTitles ? props.optTitles.length : 0)
+		
+		let searchForInit = !state.value
+		
+		for (let i=0; i < newOptMax; i++)
+		{
+			const oldOption = (props.opt && props.opt[i]) || null
+			let newOption
+
+			if (oldOption && typeof oldOption === "object") {
+				newOpt[i] = newOption = oldOption
+			}
+			else {
+				const oldTitle = (props.opTitles && props.opTitles[i]) || null
+
+				newOpt[i] = newOption = {
+					value: oldOption || null,
+					title: oldTitle || oldOption || "null"
+				}
+			}
+
+			if (searchForInit && newOption.value===value)
+				searchForInit = false
+		}
+
+		// If props.init not found in props.opt, set initial value to first  not null
+
+		if (searchForInit) {
+			for (let i=0; i < newOptMax; i++)
+				if (newOpt[i].value ) {
+					value = newOpt[i].value
+					break;
+				}
+		}
+
+		return {
+			opt: newOpt,
+			value: value
 		}
 	}
 
@@ -745,7 +800,7 @@ class RadioADInput extends AnotherDialogInput {
 		const optMax = Math.max(
 			props.opt ? props.opt.length : 0,
 			props.optTitles ? props.optTitles.length : 0)
-		let foundValue = false
+		let searchForInit = false
 		
 		for (let i=0; i < optMax; i++)
 		{
@@ -762,11 +817,11 @@ class RadioADInput extends AnotherDialogInput {
 						: props.opt[i])
 				})
 			}
-			if (!foundValue && opt[opt.length-1]===value)
-				foundValue = true
+			if (!searchForInit && opt[opt.length-1]===value)
+				searchForInit = true
 		}
 
-		if (!foundValue) {
+		if (!searchForInit) {
 			for (let i=0; i < optMax; i++)
 				if (opt[i].value) {
 					value = opt[i].value
@@ -828,45 +883,9 @@ class SelectADInput extends AnotherDialogInput {
 
 	propsToState(props)
 	{
-		var value = this.state.value || props.init
-		const opt = []
-		const optMax = Math.max(
-			props.opt ? props.opt.length : 0,
-			props.optTitles ? props.optTitles.length : 0)
-		let foundValue = false
-		
-		for (let i=0; i < optMax; i++)
-		{
-			if (props.opt && typeof props.opt[i] === "object") {
-				opt.push(props.opt[i])
-			}
-			else {
-				opt.push({
-					value: (props.opt && props.opt[i] 
-						? props.opt[i] 
-						: null),
-					title: (props.optTitles && props.optTitles[i] 
-						? props.optTitles[i] 
-						: props.opt[i])
-				})
-			}
-
-			if (!foundValue && opt[opt.length-1] && opt[opt.length-1].value===value)
-				foundValue = true
-		}
-
-		if (!foundValue) {
-			for (let i=0; i < optMax; i++)
-				if (opt[i].value) {
-					value = opt[i].value
-					break;
-				}
-		}
-
 		return {
 			//...super.propsToState(props),
-			opt: opt,
-			value: value
+			...AnotherDialogInput.optBuilder(props, this.state),
 		}
 	}
 
