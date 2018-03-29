@@ -5,7 +5,7 @@ const package = require('./package.json')
 var commitMsg = "nameless-commit" + new Date().toTimeString().slice(0,8)
 const newversion = process.argv[2] || "patch"
 
-console.log("Push npm version "+newversion)
+console.log("Push npm version " + newversion)
 
 function runCmd(command)
 {
