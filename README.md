@@ -5,8 +5,8 @@ Modal dialog component aiming for API simplicity but still covering common more 
 
 + **package name:** react-another-dialog
 + **main:** lib/AnotherDialog.js
-+ **version:** 0.1.33
-+ **date:** 2018/02/29 01:40:10
++ **version:** 0.1.34
++ **date:** 2018/02/29 04:31:16
 + **license:** MIT
 + **author:** tapsaman
 
