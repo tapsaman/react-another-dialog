@@ -32,11 +32,10 @@ try {
 
 	commitMsg = package.version || commitMsg
 
+	runCmd("npm publish")
 	runCmd("git add .")
 	runCmd("git commit --amend -m '"+commitMsg+"'")
-	runCmd("git push")
-	runCmd("npm publish")
-	
+	runCmd("git push")	
 }
 catch(ex) {
 
