@@ -207,21 +207,9 @@ export default class AnotherDialog extends React.Component {
 		= this.props
 
 		var allOK = true,
-			errorMessages = [],
-			mainMessage = ""
+			newState = { mainMessage: "" }
 
 		console.log("Dialog response: ", this.output);
-		/*
-		if (allOK && this.props.postValidate) {
-			let pv = this.props.postValidate(this.output)
-			allOK = pv.pass
-			mainMessage = pv.msg
-		}
-
-		this.setState({
-			errorMessages,
-			mainMessage
-		})*/
 
 		if (query)
 			for (let i=0; i < query.length; i++)
@@ -237,21 +225,20 @@ export default class AnotherDialog extends React.Component {
 		if (allOK && postValidate) {
 			let pv = postValidate(this.output)
 			allOK = pv.pass
-			mainMessage = pv.message
+			newState.mainMessage = pv.message || ""
 		}
 
 		if (allOK) {
 			if (verification)
 			{
-				this.setState({
-					verificating: true
-				})
+				newState.verificating = true
 			}
 			else {
 				this.success()
 			}
 		}
 
+		this.setState(newState)
 	}
 
 	__validate = () =>
@@ -270,8 +257,6 @@ export default class AnotherDialog extends React.Component {
 			console.log(input)
 			console.log(input.getValue())
 		})
-
-		return;
 		
 		this.formElems.forEach((e,i)=>{
 			var q = this.props.query[i],
