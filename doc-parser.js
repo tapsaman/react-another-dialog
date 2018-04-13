@@ -1,12 +1,21 @@
 const fs = require('fs'); 
 
-module.exports = parse
+module.exports = parseObj
 
 const regexOperators = /[|\\{}()[\]^$+*?.]/g;
 const separator = "<br><br>\n*************************\n<br><br><br>"
 
+function parse (src, out, title)
+{
+	parseObj({
+		srcFiles: Array.isArray(src) ? src : [src],
+		outPath: out,
+		title: title,
+		npmPackage: require("./package.json"),
+	})
+}
 
-function parse(options) {
+function parseObj(options) {
 	const {
 		srcFiles,
 		title,
