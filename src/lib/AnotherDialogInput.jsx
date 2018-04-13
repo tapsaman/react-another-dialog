@@ -206,7 +206,7 @@ export default class AnotherDialogInput extends React.Component {
 				const oldTitle = (props.optTitles && props.optTitles[i]) || null
 
 				newOption = {
-					value: oldOption || null,
+					value: oldOption,
 					title: oldTitle || (oldOption===null ? "---":oldOption)
 				}
 			}
@@ -221,7 +221,7 @@ export default class AnotherDialogInput extends React.Component {
 
 		if (searchForInit) {
 			for (let i=0; i < newOptMax; i++)
-				if (newOpt[i].value ) {
+				if (newOpt[i].value || newOpt[i].value === 0) {
 					value = newOpt[i].value
 					break;
 				}
