@@ -16,8 +16,8 @@
 		"docsless:watch": "autoless src/docs docs",
 		"docs": "npm-run-all --parallel docsjsx docsless:watch",
 		"docs:prod": "npm-run-all docsjsx:prod docsless",
-		"alljsx": "npm-run-all libjsx:watch docsjsx",
-		"all": "npm-run-all lib:watch docs",
+		"alljsx": "npm-run-all --parallel libjsx:watch docsjsx",
+		"all": "npm-run-all --parallel lib:watch docs",
 		"upd": "node uppis.js"
 	},
 	"keywords": [],

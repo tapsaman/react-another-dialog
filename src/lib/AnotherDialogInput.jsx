@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import NumericInput from 'react-numeric-input';
 import Datetime from 'react-datetime';
 import moment from 'moment';
-//import 'react-datetime/css/react-datetime.css';
+import 'react-datetime/css/react-datetime.css';
 
 const CLASS_ID = "a-dialog"
 
@@ -17,11 +17,12 @@ Name | Type | Default | Description
 -----|------|---------|------------
 title | string | n/a | Question header (optional).
 name | string | n/a | Name of output value
-type | string | "hidden" | "text"/"password"/"check"/"number"/"radio"/"select"/"group"/"addable"/"hidden"
+type | string | "hidden" | "text"/"password"/"check"/"number"/"radio"/"select"/"date"/"daterange"/"group"/"addable"/"hidden"
 kind | string | "hidden" | alias of type
 init | string/number | n/a | initial value or child amount for "addable"
 max | number | n/a | max value for "num", length for "text"/"password" or child amount for "addable"
 min | number | n/a | min value for "num", length for "text"/"password" or child amount for "addable"
+minDiff | number | 0 | minimum start/end date difference for "daterange"
 range | string	| n/a | range string, overrides min/max (e.g. "0-5")
 test | function | n/a | test "text"/"password" value with
 opt | array | n/a | option values for "radio"/"select" (use null for disabled options / option headers)
@@ -72,6 +73,11 @@ export default class AnotherDialogInput extends React.Component {
 			name: "date",
 			regx: /^date$/,
 			comp: DateADInput
+		},
+		{
+			name: "daterange",
+			regx: /^daterange$/,
+			comp: DateRangeADInput
 		},
 		{
 			name: "group",
@@ -787,12 +793,27 @@ class DateADInput extends AnotherDialogInput {
 				<Datetime name={name}
 					//defaultValue={init || new Date()}
 					//strictParsing={true}
+					disabled={true}
 					value={d}
 					onChange={this.setInputValue}
+					isValidDate={this.isValidDate}
 					/>
 				{errorMessage && <p className={CLASS_ID+"-error-message"}>{errorMessage}</p>}
 			</div>
 		)
+	}
+
+	isValidDate = (date, selectedDate) =>
+	{
+		const { 
+			min, 
+			max
+		} 
+		= this.state;
+
+		const dateMs = date.valueOf()
+
+		return dateMs > min && dateMs < max 
 	}
 }
 
@@ -1160,6 +1181,114 @@ class AddableADInput extends AnotherDialogInput {
 			this.props.name, this.props.index)
 	}
 }
+
+class DateRangeADInput extends AnotherDialogInput {
+
+	type = "daterange"
+
+	propsToState(props)
+	{
+		//const value = this.state.value || props.value || []
+
+		return {
+			...super.propsToState(props)
+		}
+	}
+
+	setInputValue = (value, name) =>
+	{
+		let start = this.state.value[0],
+			end = this.state.value[1]
+
+		if (name === "startDate")
+			start = value
+		else
+			end = value
+
+		this.setState({
+			value: [start, end]
+		})
+
+		this.props.onChange([start, end], 
+			this.props.name, this.props.index)
+	}
+
+	validate() {
+		const {
+			childAmount
+		}
+		 = this.state
+		const {
+			children
+		}
+		 = this.props
+
+		var allOK = true
+
+		console.log("addable formElems", this.formElems)
+		console.log("addable formElems", this.formElems)
+
+		for (var i=0; i < childAmount; i++)
+		{
+			for (var c=0; c < children.length; c++)
+			{
+				console.log(i)
+
+				const result = this.formElems[i][children[c].name || "input"+i]
+					.validate()
+
+				if (!result) {
+					allOK = false
+				}
+			}
+		}
+
+		return allOK
+	}
+
+	render() {
+		const {
+			min,
+			max,
+			value
+		}
+		 = this.state
+		const {
+			title, 	
+			name,
+			disabled,
+			className,
+			minDiff
+		}
+		 = this.props
+
+		const start = value[0],
+				end = value[1]
+
+		return (
+			<div className={CLASS_ID+"-input "+CLASS_ID+"-input-"+this.type+" "+(className || "")}>
+				{title && <h2 className="input-title">{title}</h2>}
+				<DateADInput
+					name="startDate"
+					className="date-range-start"
+					value={start}
+					min={min}
+					max={end - (minDiff || 0)}
+					onChange={this.setInputValue}
+					/>
+				<DateADInput
+					name="endDate"
+					className="date-range-end"
+					value={end}
+					min={start + (minDiff || 0)}
+					max={max}
+					onChange={this.setInputValue}
+					/>
+			</div>
+		)
+	}
+}
+
 
 class HiddenADInput extends AnotherDialogInput {
 

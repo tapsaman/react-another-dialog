@@ -1,6 +1,7 @@
 const fs = require('fs'); 
 
-module.exports = parseObj
+module.exports.default = parseObj
+module.exports.parse = parseObj
 
 const regexOperators = /[|\\{}()[\]^$+*?.]/g;
 const separator = "<br><br>\n*************************\n<br><br><br>"

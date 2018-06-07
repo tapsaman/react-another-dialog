@@ -151,6 +151,7 @@ class Demo extends React.Component {
 						{...exampleDialogProps}
 						onSuccess={this.saveExampleDialogResponse}
 						onFinish={this.hideExampleDialog}
+						verification={true}
 						animateIn={this.exampleDialogAnimateIn}
 						animateOut={this.exampleDialogAnimateOut}
 						/>
@@ -196,17 +197,13 @@ class Demo extends React.Component {
 		})
 	}
 
-	exampleDialogAnimateIn(form, mask, doAfter) {
-		console.log("#", form)
-		console.log("#", mask)
-		//Velocity(form, "fadeIn", doAfter)
-
-		Velocity(form, {
+	exampleDialogAnimateIn(form, mask) {
+		/*Velocity(form, {
 			scale: [1, 0]
 		}, {
 			easing: [500, 20]
-		})
-
+		})*/
+		Velocity(form, "slideDown")
 	}
 
 	exampleDialogAnimateOut(form, mask, doAfter) {
