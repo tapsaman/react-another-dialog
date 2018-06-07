@@ -23,6 +23,7 @@ init | string/number | n/a | initial value or child amount for "addable"
 max | number | n/a | max value for "num", length for "text"/"password" or child amount for "addable"
 min | number | n/a | min value for "num", length for "text"/"password" or child amount for "addable"
 minDiff | number | 0 | minimum start/end date difference for "daterange"
+titles | array | ["Start date", "End date"] | titles of each date input for "daterange"
 range | string	| n/a | range string, overrides min/max (e.g. "0-5")
 test | function | n/a | test "text"/"password" value with
 opt | array | n/a | option values for "radio"/"select" (use null for disabled options / option headers)
@@ -793,6 +794,10 @@ class DateADInput extends AnotherDialogInput {
 				<Datetime name={name}
 					//defaultValue={init || new Date()}
 					//strictParsing={true}
+					inputProps={{
+						size: 15,
+						disabled: disabled
+					}}
 					disabled={true}
 					value={d}
 					onChange={this.setInputValue}
@@ -1188,10 +1193,9 @@ class DateRangeADInput extends AnotherDialogInput {
 
 	propsToState(props)
 	{
-		//const value = this.state.value || props.value || []
-
 		return {
-			...super.propsToState(props)
+			...super.propsToState(props),
+			titles: props.titles || ["Start date", "End date"]
 		}
 	}
 
@@ -1250,11 +1254,12 @@ class DateRangeADInput extends AnotherDialogInput {
 		const {
 			min,
 			max,
-			value
+			value,
+			titles
 		}
 		 = this.state
 		const {
-			title, 	
+			title,
 			name,
 			disabled,
 			className,
@@ -1269,6 +1274,7 @@ class DateRangeADInput extends AnotherDialogInput {
 			<div className={CLASS_ID+"-input "+CLASS_ID+"-input-"+this.type+" "+(className || "")}>
 				{title && <h2 className="input-title">{title}</h2>}
 				<DateADInput
+					title={titles[0]}
 					name="startDate"
 					className="date-range-start"
 					value={start}
@@ -1277,6 +1283,7 @@ class DateRangeADInput extends AnotherDialogInput {
 					onChange={this.setInputValue}
 					/>
 				<DateADInput
+					title={titles[1]}
 					name="endDate"
 					className="date-range-end"
 					value={end}

@@ -110,12 +110,10 @@
 .a-dialog-input.inline > input[type="checkbox"] {
   margin-right: 5px;
 }
-.a-dialog-input-date {
-  /*.rdtPicker {
-		position: fixed;
-	}*/
-}
 .a-dialog-input-date .rdt {
+  position: static;
+}
+.a-dialog-input-date .rdt .rdtPicker {
   position: static;
 }
 .a-dialog-input-daterange {
@@ -127,6 +125,11 @@
 .a-dialog-input-daterange .date-range-end {
   float: right;
   text-align: right;
+}
+.a-dialog-input-daterange:after {
+  content: '';
+  display: block;
+  clear: both;
 }
 .a-dialog-input-group {
   max-height: 250px;
