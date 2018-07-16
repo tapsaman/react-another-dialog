@@ -152,6 +152,8 @@ class Demo extends React.Component {
 						onSuccess={this.saveExampleDialogResponse}
 						onFinish={this.hideExampleDialog}
 						verification={true}
+						verificateBeforePostValidate={true}
+						onPostValidate={this.onPostValidate}
 						animateIn={this.exampleDialogAnimateIn}
 						animateOut={this.exampleDialogAnimateOut}
 						/>
@@ -198,16 +200,31 @@ class Demo extends React.Component {
 	}
 
 	exampleDialogAnimateIn(form, mask) {
-		/*Velocity(form, {
+		Velocity(form, {
 			scale: [1, 0]
 		}, {
 			easing: [500, 20]
-		})*/
-		Velocity(form, "slideDown")
+		})
+		//Velocity(form, "slideDown")
 	}
 
 	exampleDialogAnimateOut(form, mask, doAfter) {
 		Velocity(form, "fadeOut", doAfter)
+	}
+
+	onPostValidate(dialogOutput, afterPostValidate) {
+		
+		setTimeout(function() {
+			afterPostValidate({
+				pass: true,
+				message: "Post validation successful!"
+			})
+		}, 1500)
+
+		return {
+			message: "Running post validation..."
+		}
+
 	}
 
 }

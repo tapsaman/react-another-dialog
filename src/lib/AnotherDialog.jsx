@@ -18,19 +18,20 @@ React-component for building your dialog element in.
 
 ### Properties
 
-| Name | Type | Default | Description
-| -----|------|---------|------------
-| title | string | n/a | Shown title (optional).
-| subtitle | string | n/a | Shown subtitle. Included HTML will be rendered (optional).
-| query | Array | n/a | Array of properties to render AnotherDialogInput-objects with OR ready-made input components (extending AnotherDialogInput)
-| verification | bool/string | false | If true, verificate response before onSuccess. Give a string to define the verification question (default: "Are you sure to proceed?").
-| animateIn | function | n/a | Function to animate in the dialog the way you wish.<br>Run as ```animateIn(formElement, maskElement)```
-| animateOut | function | n/a | Function to animate out the dialog the way you wish.<br>Run as ```animateOut(formElement, maskElement, after)```<br>**Note**: Run the 'after'-function when done!
-| onSuccess
-| onCancel
-| onFinish
-| postValidate
-| options | array | [{ type:"submit", value:"OK" },<br>{ type:"cancel", value:"Cancel" }] | Customize the main buttons. Additionals can be included:<br>{type: "button", value: "Example", onClick: function() {...}}
+Name | Type | Default | Description
+-----|------|---------|------------
+title | string | n/a | Shown title (optional).
+subtitle | string | n/a | Shown subtitle. Included HTML will be rendered (optional).
+query | Array | n/a | Array of properties to render AnotherDialogInput-objects with OR ready-made input components (extending AnotherDialogInput)
+verification | bool/string | false | If true, verificate response before onSuccess. Give a string to define the verification question (default: "Are you sure to proceed?").
+animateIn | function | n/a | Function to animate in the dialog the way you wish.<br>Run as ```animateIn(formElement, maskElement)```
+animateOut | function | n/a | Function to animate out the dialog the way you wish.<br>Run as ```animateOut(formElement, maskElement, after)```<br>**Note**: Run the 'after'-function when done!
+onSuccess
+onCancel
+onFinish
+onPostValidate | function | n/a | Run with parameters _dialogOutput_ and _afterPostValidate_ callback.<br>Response object: ```{ pass: _bool_, message: _string_ }```<br>Must either return the response object or run _afterPostValidate_ with it as the first parameter. 
+verificateBeforePostValidate | bool | n/a | 
+options | array | [{ type:"submit", value:"OK" },<br>{ type:"cancel", value:"Cancel" }] | Customize the main buttons. Additionals can be included:<br>{type: "button", value: "Example", onClick: function() {...}}
 
 ^^^^*/
 
@@ -61,6 +62,7 @@ export default class AnotherDialog extends React.Component {
 		this.state = {
 			errorMessages: 	{},
 			verificating: 	false,
+			validating: 	false,
 			mainMessage: 	"",
 			...this.propsToState(props)
 		};
@@ -110,6 +112,7 @@ export default class AnotherDialog extends React.Component {
 
 	render() {
 		const { 
+			validating,
 			verificating,
 			verifMsg,
 			options 
@@ -138,7 +141,7 @@ export default class AnotherDialog extends React.Component {
 					style={style}
 					ref={form => this.form=form}
 					action="javascript:;"
-					onSubmit={verificating ? this.success : this.validate}
+					onSubmit={verificating ? this.onVerificate : this.validate}
 					>
 					{title 
 					&& 	<h1>{title}</h1>
@@ -162,7 +165,7 @@ export default class AnotherDialog extends React.Component {
 								AnotherDialogInput.getInput({
 									...q,
 									name: q.name || "input"+i,
-									disabled: verificating,
+									disabled: verificating || validating,
 									key: i,
 									onChange: this.setInputValue,
 									ref: (el) => this.formElems[q.name || "input"+i] = el
@@ -177,16 +180,19 @@ export default class AnotherDialog extends React.Component {
 						}
 					</p>
 					<div className={CLASS_ID+"-option-buttons"}>
-						{options.map((opt, i) =>
-							<input type={opt.type==="submit"?opt.type:"button"} value={opt.value}
-								onClick={opt.onClick || 
-									opt.type==="cancel" 
-									? (verificating ? this.cancelVerification : this.cancel)
-									: undefined
-								}
-								key={i}
-								/>
-						)}
+						{validating
+						? 	null
+						:	options.map((opt, i) =>
+								<input type={opt.type==="submit"?opt.type:"button"} 
+									value={opt.value}
+									onClick={opt.onClick || 
+										opt.type==="cancel" 
+										? (verificating ? this.cancelVerification : this.cancel)
+										: undefined
+									}
+									key={i}
+									/>)
+						}
 					</div>
 				</form>
 			</div>
@@ -201,13 +207,13 @@ export default class AnotherDialog extends React.Component {
 	{
 		const {
 			query,
-			postValidate,
-			verification 
+			onPostValidate,
+			verification,
+			verificateBeforePostValidate
 		}
 		= this.props
 
-		var allOK = true,
-			newState = { mainMessage: "" }
+		let allOK = true
 
 		console.log("Dialog response: ", this.output);
 
@@ -222,171 +228,64 @@ export default class AnotherDialog extends React.Component {
 				}
 			}
 
-		if (allOK && postValidate) {
-			let pv = postValidate(this.output)
-			allOK = pv.pass
-			newState.mainMessage = pv.message || ""
+		if (allOK && onPostValidate) {
+			if (verification && verificateBeforePostValidate)
+				this.setState({
+					verificating: true
+				})
+			else 
+				this.postValidate(this.output, this.afterValidate)
 		}
-
-		if (allOK) {
+		else if (allOK) {
 			if (verification)
 			{
-				newState.verificating = true
+				this.setState({
+					verificating: true
+				})
 			}
 			else {
 				this.success()
 			}
 		}
-
-		this.setState(newState)
 	}
 
-	__validate = () =>
-	{
-		const { query } = this.props
-
-		var allOK = true,
-			errorMessages = [],
-			mainMessage = ""
-
-		console.log("refs: ", this.refs)
-
-		query.forEach((e,i) => {
-			const input = this.refs[ e.out ]
-			console.log(i + ": " + e.out)
-			console.log(input)
-			console.log(input.getValue())
-		})
-		
-		this.formElems.forEach((e,i)=>{
-			var q = this.props.query[i],
-				val,
-				errMsg = "",
-				type = q.type || q.kind
-
-			if (type === "num")
-			{
-				val = this.addValues[i];
-
-				if (q.max && val > q.max) {
-					errMsg = "Range for value is "+Number(q.min)+"-"+q.max;
-					allOK = false;
-				}
-				else if (q.min && val < q.min) {
-					errMsg = "Range for value is "+q.min+"-"+q.max;
-					allOK = false;
-				}
-			}
-			else if (type === "hidden")
-			{
-				val = e.value;
-			}
-			else if (type === "text" || type === "password")
-			{
-				val = e.value;
-				
-				if (this.props.test && !this.props.test.test(val))
-				{
-					errMsg = this.props.testReq || "Invalid value";
-					allOK = false;
-				}
-				else if ((q.min && val.length < q.min) || (q.max && val.length > q.max))
-				{
-					if (q.max)
-						errMsg = "Length must be between "+Number(q.min)+"-"+q.max;
-					else
-						errMsg = "Length must be at least "+Number(q.min);
-
-					allOK = false;
-				}
-			}
-			else if (type === "date")
-			{
-				val = this.addValues[i];
-
-				if (typeof val === "object" && "valueOf" in val) {
-					val = val.valueOf();
-				}
-				else if (isNaN(val)) {
-					errMsg = "Not a valid date";
-					allOK = false;
-				}
-			}
-			else if (type === "check")
-			{
-				val = e.checked;
-			}
-			else if (type === "checkGroup")
-			{
-				val = [];
-
-				for (var elei=0; elei < e.length; elei++)
-				{
-					if (e[elei] && e[elei].checked) {
-						val.push( e[elei].value );
-					}
-				}
-
-				if (val.length < q.min && !q.max) {
-					errMsg = "Must select at least "+q.min;
-					allOK = false;
-				}
-				else if (val.length > q.max && !q.min) {
-					errMsg = "Can't select more than "+q.max;
-					allOK = false;
-				}
-				else if (val.length < q.min || val.length > q.max) {
-					errMsg = "Must select "+q.min+"-"+q.max+" options";
-					allOK = false;
-				}
-			}
-			else if (type === "radio")
-			{
-				val = null;
-
-				for (var elei=0; elei < e.length; elei++)
-				{
-					if (e[elei].checked) {
-						val = e[elei].value;
-						break;
-					}
-				}
-
-				if (val === null) {
-					errMsg = "No option selected";
-					allOK = false;
-				}
-			}
-			else if (type === "select")
-			{
-				val = e.value
-				if (!val && val !== 0)
-				{
-					errMsg = "No option selected";
-					allOK = false;
-				}
-			}
-
-			errorMessages[i] = errMsg;
-			this.output[q.out] = val;
-		});
-
-		if (allOK && this.props.postValidate) {
-			let pv = this.props.postValidate(this.output)
-			allOK = pv.pass
-			mainMessage = pv.msg
-		}
+	postValidate = () => {
+		const { onPostValidate } = this.props
 
 		this.setState({
-			errorMessages,
-			mainMessage
+			validating: true
 		})
 
+		const pvResponse = onPostValidate(this.output, this.afterPostValidate)
+
+		if (typeof pvResponse === "object")
+			this.afterPostValidate(pvResponse)
+	}
+
+	afterPostValidate = (postValidateResponse) => {
+		const {
+			verification,
+			verificateBeforePostValidate
+		}
+		= this.props
+
+		const allOK = postValidateResponse && postValidateResponse.pass
+		const mainMessage = postValidateResponse.message || ""
+
+		if (mainMessage)
+		{
+			this.setState({
+				mainMessage: mainMessage,
+				validating: (postValidateResponse.pass!==true && postValidateResponse.pass!==false)
+			})
+		}
+
 		if (allOK) {
-			if (this.props.verification)
+			if (verification && !verificateBeforePostValidate)
 			{
 				this.setState({
-					verificating: true
+					verificating: true,
+					validating: false
 				})
 			}
 			else {
@@ -400,7 +299,20 @@ export default class AnotherDialog extends React.Component {
 			this.props.animateOut(this.form, this.mask, this.closeSuccess)
 		else
 			this.closeSuccess()
-		
+	}
+
+	onVerificate = () => {
+		const { verificateBeforePostValidate } = this.props
+
+		this.setState({
+			verificating: false,
+			mainMessage: ""
+		})
+
+		if (verificateBeforePostValidate)
+			this.postValidate()
+		else 
+			this.success()
 	}
 
 	closeSuccess = () => {
