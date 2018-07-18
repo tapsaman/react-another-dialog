@@ -5,8 +5,8 @@ Modal dialog component aiming for API simplicity but still covering common more 
 
 + **package name:** react-another-dialog
 + **main:** lib/AnotherDialog.js
-+ **version:** 0.1.40
-+ **date:** 2018/06/16 17:16:47
++ **version:** 0.1.41
++ **date:** 2018/06/18 15:33:45
 + **license:** MIT
 + **author:** tapsaman
 
@@ -27,15 +27,33 @@ Name | Type | Default | Description
 title | string | n/a | Shown title (optional).
 subtitle | string | n/a | Shown subtitle. Included HTML will be rendered (optional).
 query | Array | n/a | Array of properties to render AnotherDialogInput-objects with OR ready-made input components (extending AnotherDialogInput)
-verification | bool/string | false | If true, verificate response before onSuccess. Give a string to define the verification question (default: "Are you sure to proceed?").
+verification | bool/string | false | If true, verificate response before _onSuccess_, after _onPostValidation_. Give a string to define the verification question (default: "Are you sure to proceed?").
 animateIn | function | n/a | Function to animate in the dialog the way you wish.<br>Run as ```animateIn(formElement, maskElement)```
 animateOut | function | n/a | Function to animate out the dialog the way you wish.<br>Run as ```animateOut(formElement, maskElement, after)```<br>**Note**: Run the 'after'-function when done!
 onSuccess
 onCancel
 onFinish
 onPostValidate | function | n/a | Run with parameters _dialogOutput_ and _afterPostValidate_ callback.<br>Response object: ```{ pass: _bool_, message: _string_ }```<br>Must either return the response object or run _afterPostValidate_ with it as the first parameter. 
-verificateBeforePostValidate | bool | n/a | 
 options | array | [{ type:"submit", value:"OK" },<br>{ type:"cancel", value:"Cancel" }] | Customize the main buttons. Additionals can be included:<br>{type: "button", value: "Example", onClick: function() {...}}
+closeOnMaskClick | bool | true | If true, cancel dialog on click outside the form (on _.a-dialog-mask_)
+noMask | bool | false |
+floating | bool | true | If true, float form in the screen center 
+
+Given React-children are rendered after title, before subtitle and query.
+
+## onPostValidate response properties
+
+Common for inputs and form.
+Name | Type | Default | Description
+-----|------|---------|------------
+message | string | - | Output as main message, 
+pass | bool | -	| True if validation passes, false if fails. Undefined if no change (e.g. with a "Loading..." message).
+
+Only for forms.
+Name | Type | Default | Description
+-----|------|---------|------------
+verificate | bool | - | If true, verificate response with OK / Cancel (verification message is given as _message_).
+afterVerificate | function | - | If defined, run after verification. Otherwise runs _onSuccess_.
 
 undefined<br><br>
 *************************
