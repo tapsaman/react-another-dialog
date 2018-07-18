@@ -15,9 +15,9 @@ function runCmd(command)
 
 try {
 
-	//runCmd("git add .")
-	//runCmd("git commit -m '"+commitMsg+"'")
-	//runCmd("npm version "+newversion)
+	runCmd("git add .")
+	runCmd("git commit -m '"+commitMsg+"'")
+	runCmd("npm version "+newversion)
 
 	docParser.parse({
 		title: "react-another-dialog documentation\n"

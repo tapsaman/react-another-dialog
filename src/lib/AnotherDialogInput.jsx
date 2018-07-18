@@ -249,7 +249,8 @@ export default class AnotherDialogInput extends React.Component {
 		}
 		= this.state
 		const {
-			test
+			test,
+			dialogOutput
 		}
 		= this.props
 
@@ -265,7 +266,7 @@ export default class AnotherDialogInput extends React.Component {
 				errMsg = "Max. "+max+" characters.";
 		}
 		else if (test) {
-			const ret = test(value)
+			const ret = test(value, dialogOutput)
 
 			if (!ret.pass) {
 				errMsg = ret.message || "Invalid value"
@@ -733,7 +734,8 @@ class DateADInput extends AnotherDialogInput {
 		}
 		= this.state
 		const {
-			test
+			test,
+			dialogOutput
 		}
 		= this.props
 
@@ -754,7 +756,7 @@ class DateADInput extends AnotherDialogInput {
 					+ moment(new Date(min)).format("YYYY-MM-DD HH:mm:ss")
 		}
 		else if (test) {
-			const ret = test(value)
+			const ret = test(value, dialogOutput)
 
 			if (!ret.pass) {
 				errMsg = ret.message || "Invalid value"
@@ -1076,7 +1078,6 @@ class AddableADInput extends AnotherDialogInput {
 
 		var allOK = true
 
-		console.log("addable formElems", this.formElems)
 		console.log("addable formElems", this.formElems)
 
 		for (var i=0; i < childAmount; i++)

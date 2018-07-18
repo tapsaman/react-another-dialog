@@ -1,41 +1,44 @@
 @id: a-dialog;
 
+.@{id}-container {
+	position: relative;
+
+	&.floating {
+		position: fixed;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+}
+
 .@{id}-mask {
-	position: fixed;
+	position: absolute;
 	top: 0;
 	right: 0;
 	bottom: 0;
 	left: 0;
 	background-color: #999;
-	background-color: #0009;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.@{id}-form:not(.no-mask) {
-	background-color: #fff;
-	color: #444;
-	border: 5px solid #444;
-	border-radius: 40px;
-	width: 100%;
-	max-width: 600px;
-	margin: auto;
-	padding: 25px;
-	max-height: 95%;
+	background-color: #3339;
 }
 
 .@{id}-form {
 	overflow: auto;
 	box-sizing: border-box;
 
-	> h1 {
-		margin-top: 0;
-	}
-
-	.@{id}-main-message {
-		text-align: center;
-		margin-top: 25px;
+	&.floating {
+		background-color: #fff;
+		color: #444;
+		border: 5px solid #444;
+		border-radius: 40px;
+		width: 100%;
+		max-width: 600px;
+		margin: auto;
+		padding: 25px;
+		max-height: 95%;
 	}
 
 	.radio-span {
@@ -71,11 +74,26 @@
 
 	.@{id}-error-message {
 		color: red;
+		margin-top: 2px;
 	}
 
 	.@{id}-option-buttons {
 		text-align: center;
 	}
+}
+
+&.@{id}-validating &.@{id}-query,
+&.@{id}-verificating &.@{id}-query {
+	color: #999;
+}
+
+.@{id}-title {
+	margin-top: 0;
+}
+
+.@{id}-main-message {
+	text-align: center;
+	margin-top: 25px;
 }
 
 .@{id}-input {

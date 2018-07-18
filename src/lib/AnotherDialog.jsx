@@ -23,15 +23,33 @@ Name | Type | Default | Description
 title | string | n/a | Shown title (optional).
 subtitle | string | n/a | Shown subtitle. Included HTML will be rendered (optional).
 query | Array | n/a | Array of properties to render AnotherDialogInput-objects with OR ready-made input components (extending AnotherDialogInput)
-verification | bool/string | false | If true, verificate response before onSuccess. Give a string to define the verification question (default: "Are you sure to proceed?").
+verification | bool/string | false | If true, verificate response before _onSuccess_, after _onPostValidation_. Give a string to define the verification question (default: "Are you sure to proceed?").
 animateIn | function | n/a | Function to animate in the dialog the way you wish.<br>Run as ```animateIn(formElement, maskElement)```
 animateOut | function | n/a | Function to animate out the dialog the way you wish.<br>Run as ```animateOut(formElement, maskElement, after)```<br>**Note**: Run the 'after'-function when done!
 onSuccess
 onCancel
 onFinish
 onPostValidate | function | n/a | Run with parameters _dialogOutput_ and _afterPostValidate_ callback.<br>Response object: ```{ pass: _bool_, message: _string_ }```<br>Must either return the response object or run _afterPostValidate_ with it as the first parameter. 
-verificateBeforePostValidate | bool | n/a | 
 options | array | [{ type:"submit", value:"OK" },<br>{ type:"cancel", value:"Cancel" }] | Customize the main buttons. Additionals can be included:<br>{type: "button", value: "Example", onClick: function() {...}}
+closeOnMaskClick | bool | true | If true, cancel dialog on click outside the form (on _.a-dialog-mask_)
+noMask | bool | false |
+floating | bool | true | If true, float form in the screen center 
+
+Given React-children are rendered after title, before subtitle and query.
+
+## onPostValidate response properties
+
+Common for inputs and form.
+Name | Type | Default | Description
+-----|------|---------|------------
+message | string | - | Output as main message, 
+pass | bool | -	| True if validation passes, false if fails. Undefined if no change (e.g. with a "Loading..." message).
+
+Only for forms.
+Name | Type | Default | Description
+-----|------|---------|------------
+verificate | bool | - | If true, verificate response with OK / Cancel (verification message is given as _message_).
+afterVerificate | function | - | If defined, run after verification. Otherwise runs _onSuccess_.
 
 ^^^^*/
 
@@ -115,88 +133,104 @@ export default class AnotherDialog extends React.Component {
 			validating,
 			verificating,
 			verifMsg,
-			options 
+			options,
+			mainMessage
 		} 
 		= this.state
+
 		const {
 			title,
 			subtitle,
 			query,
 			className,
-			maskClassName,
-			style
+			style,
+			closeOnMaskClick,
+			children,
+			noMask,
+			floating
 		}
 		 = this.props
 
 		return (
-			<div 
-				className={maskClassName || CLASS_ID+"-mask"}
-				ref={mask => this.mask=mask}
-				tabIndex="0"
-				onKeyUp={this.onKey}
+			<div className={CLASS_ID+"-container"
+					+ (floating===false ? "" : " floating")
+				}
 				>
+				{noMask
+				?	null
+				:	<div className={CLASS_ID+"-mask"}
+						ref={mask => this.mask = mask}
+						tabIndex="0"
+						onKeyUp={this.onKey}
+						onClick={closeOnMaskClick===false ? undefined : this.cancel}
+						/>
+				}
 				<form
-					//className={CLASS_ID+"form "+(className || "")}
-					className={className || CLASS_ID+"-form"}
+					className={CLASS_ID+"-form"
+						+ (floating===false ? "" : " floating")
+						+ (validating 	? " "+CLASS_ID+"-validating" : "")
+						+ (verificating ? " "+CLASS_ID+"-verificating" : "")
+						+ (className 	? " "+className : "")}
 					style={style}
 					ref={form => this.form=form}
 					action="javascript:;"
-					onSubmit={verificating ? this.onVerificate : this.validate}
+					onSubmit={verificating ? this.acceptVerificate : this.validate}
 					>
 					{title 
-					&& 	<h1>{title}</h1>
+					&& 	<h1 className={CLASS_ID+"-title"}>{title}</h1>
 					}
-					{subtitle 
-					&& 	<p className={CLASS_ID+"-subtitle"}
-							dangerouslySetInnerHTML={{__html: this.props.subtitle}}/>
-					}
-					{query
-					&&	<div className={CLASS_ID+"-query"}>
-							{query.map((q, i) => 
-								//<PromptInput
-								//	{...q}
-								//	disabled={verificating}
-								//	name={q.name || "promptInput"+i}
-								//	key={i}
-								//	index={i}
-								//	onChange={this.setInputValue}
-								//	/>
+					<div className={CLASS_ID+"-content"}>
+						{children}
+						{subtitle 
+						&& 	<p className={CLASS_ID+"-subtitle"}
+								dangerouslySetInnerHTML={{__html: this.props.subtitle}}/>
+						}
+						{query
+						&&	<div className={CLASS_ID+"-query"}>
+								{query.map((q, i) => 
+									//<PromptInput
+									//	{...q}
+									//	disabled={verificating}
+									//	name={q.name || "promptInput"+i}
+									//	key={i}
+									//	index={i}
+									//	onChange={this.setInputValue}
+									//	/>
 
-								AnotherDialogInput.getInput({
-									...q,
-									name: q.name || "input"+i,
-									disabled: verificating || validating,
-									key: i,
-									onChange: this.setInputValue,
-									ref: (el) => this.formElems[q.name || "input"+i] = el
-								})
-							)}
+									AnotherDialogInput.getInput({
+										...q,
+										name: q.name || "input"+i,
+										disabled: verificating || validating,
+										key: i,
+										onChange: this.setInputValue,
+										dialogOutput: this.output,
+										ref: (el) => this.formElems[q.name || "input"+i] = el
+									})
+								)}
+							</div>
+						}
+						<p className={CLASS_ID+"-main-message"}>
+							{mainMessage}
+						</p>
+						<div className={CLASS_ID+"-option-buttons"}>
+							{validating
+							? 	null
+							:	options.map((opt, i) =>
+									<input type={opt.type==="submit"?opt.type:"button"} 
+										value={opt.value}
+										onClick={opt.onClick || 
+											opt.type==="cancel" 
+											? (verificating ? this.cancelVerification : this.cancel)
+											: undefined
+										}
+										key={i}
+										/>)
+							}
 						</div>
-					}
-					<p className={CLASS_ID+"-main-message"}>
-						{verificating 
-						? 	verifMsg
-						: 	this.state.mainMessage || ""
-						}
-					</p>
-					<div className={CLASS_ID+"-option-buttons"}>
-						{validating
-						? 	null
-						:	options.map((opt, i) =>
-								<input type={opt.type==="submit"?opt.type:"button"} 
-									value={opt.value}
-									onClick={opt.onClick || 
-										opt.type==="cancel" 
-										? (verificating ? this.cancelVerification : this.cancel)
-										: undefined
-									}
-									key={i}
-									/>)
-						}
 					</div>
 				</form>
 			</div>
-		);
+		)
 	}
 
 	setInputValue = (value, name, index) => {
@@ -208,8 +242,7 @@ export default class AnotherDialog extends React.Component {
 		const {
 			query,
 			onPostValidate,
-			verification,
-			verificateBeforePostValidate
+			verification
 		}
 		= this.props
 
@@ -228,29 +261,19 @@ export default class AnotherDialog extends React.Component {
 				}
 			}
 
-		if (allOK && onPostValidate) {
-			if (verification && verificateBeforePostValidate)
-				this.setState({
-					verificating: true
-				})
-			else 
-				this.postValidate(this.output, this.afterValidate)
-		}
-		else if (allOK) {
-			if (verification)
-			{
-				this.setState({
-					verificating: true
-				})
-			}
-			else {
+		if (allOK) 
+		{
+			if (onPostValidate)
+				this.postValidate()
+			else if (verification)
+				this.verificate()
+			else
 				this.success()
-			}
 		}
 	}
 
-	postValidate = () => {
-		const { onPostValidate } = this.props
+	postValidate = (onPostValidate) => {
+		onPostValidate = onPostValidate || this.props.onPostValidate
 
 		this.setState({
 			validating: true
@@ -264,33 +287,28 @@ export default class AnotherDialog extends React.Component {
 
 	afterPostValidate = (postValidateResponse) => {
 		const {
-			verification,
-			verificateBeforePostValidate
+			verification
 		}
 		= this.props
 
-		const allOK = postValidateResponse && postValidateResponse.pass
-		const mainMessage = postValidateResponse.message || ""
+		const { message, pass, verificate, afterVerificate } = postValidateResponse
 
-		if (mainMessage)
+		if (verificate) 
 		{
+			this.verificate(message, afterVerificate)
+		}
+		else if (!pass) {
 			this.setState({
-				mainMessage: mainMessage,
-				validating: (postValidateResponse.pass!==true && postValidateResponse.pass!==false)
+				mainMessage: message,
+				validating: pass !== false
 			})
 		}
+		else {
+			this.setState({
+				mainMessage: message
+			})
 
-		if (allOK) {
-			if (verification && !verificateBeforePostValidate)
-			{
-				this.setState({
-					verificating: true,
-					validating: false
-				})
-			}
-			else {
-				this.success()
-			}
+			this.success()
 		}
 	}
 
@@ -301,18 +319,47 @@ export default class AnotherDialog extends React.Component {
 			this.closeSuccess()
 	}
 
-	onVerificate = () => {
-		const { verificateBeforePostValidate } = this.props
+	verificate = (message, after) => {
+		const { verification } = this.props
 
+		this.setState({
+			validating: false,
+			verificating: true,
+			mainMessage: 
+				message
+				? message
+				: typeof verification === "string"
+				? verification
+				: "Are you sure to proceed?",
+			afterVerificate: after
+		})
+	}
+
+	acceptVerificate = () => {
+		const { afterVerificate } = this.state
+
+		if (afterVerificate) {
+			this.setState({
+				verificating: false,
+				afterVerificate: undefined
+			})
+
+			this.postValidate(afterVerificate)
+		}
+		else {
+			this.setState({
+				verificating: false
+			})
+
+			this.success()
+		}
+	}
+
+	cancelVerification = () => {
 		this.setState({
 			verificating: false,
 			mainMessage: ""
 		})
-
-		if (verificateBeforePostValidate)
-			this.postValidate()
-		else 
-			this.success()
 	}
 
 	closeSuccess = () => {
@@ -334,14 +381,6 @@ export default class AnotherDialog extends React.Component {
 			this.props.onCancel()
 		if (this.props.onFinish)
 			this.props.onFinish()
-	}
-
-
-
-	cancelVerification = () => {
-		this.setState({
-			verificating: false
-		})
 	}
 
 	onKey = (e) => {

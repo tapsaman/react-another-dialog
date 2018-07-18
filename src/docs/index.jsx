@@ -39,8 +39,8 @@ class Demo extends React.Component {
 			<div>
 				<AnotherDialog
 					title="Build dialog"
-					maskClassName="no-mask"
-					className="no-mask"
+					floating={false}
+					noMask={true}
 					query={[
 					{
 						name: "title",
@@ -147,16 +147,16 @@ class Demo extends React.Component {
 					options={[{type: "submit", value: "Example dialog"}]}
 					/>
 				{showExampleDialog
-				&&	<AnotherDialog
+				?	<AnotherDialog
 						{...exampleDialogProps}
 						onSuccess={this.saveExampleDialogResponse}
 						onFinish={this.hideExampleDialog}
-						verification={true}
-						verificateBeforePostValidate={true}
 						onPostValidate={this.onPostValidate}
 						animateIn={this.exampleDialogAnimateIn}
 						animateOut={this.exampleDialogAnimateOut}
+						//verification={true}
 						/>
+				: 	null
 				}
 				{exampleDialogResponse
 				&&	<div>
@@ -199,6 +199,35 @@ class Demo extends React.Component {
 		})
 	}
 
+	onPostValidate = (dialogOutput, afterPostValidate) => {
+		
+		setTimeout(() => {
+			afterPostValidate({
+				pass: true,
+				message: <span>Post validation successful!<br/>Are you sure to proceed?</span>,
+				verificate: true,
+				afterVerificate: this.onAfterVerificate
+			})
+		}, 1500)
+
+		return {
+			message: "Running post validation..."
+		}
+	}
+
+	onAfterVerificate = (dialogOutput, afterPostValidate) => {
+		setTimeout(() => {
+			afterPostValidate({
+				pass: true,
+				message: "Closing up..."
+			})
+		}, 1500)
+
+		return {
+			message: "Given OK to verification..."
+		}
+	}
+
 	exampleDialogAnimateIn(form, mask) {
 		Velocity(form, {
 			scale: [1, 0]
@@ -211,22 +240,6 @@ class Demo extends React.Component {
 	exampleDialogAnimateOut(form, mask, doAfter) {
 		Velocity(form, "fadeOut", doAfter)
 	}
-
-	onPostValidate(dialogOutput, afterPostValidate) {
-		
-		setTimeout(function() {
-			afterPostValidate({
-				pass: true,
-				message: "Post validation successful!"
-			})
-		}, 1500)
-
-		return {
-			message: "Running post validation..."
-		}
-
-	}
-
 }
 
 render(<Demo />, document.getElementById("app"));
