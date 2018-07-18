@@ -15,8 +15,8 @@ function runCmd(command)
 
 try {
 
-	runCmd("git add .")
-	runCmd("git commit -m '"+commitMsg+"'")
+	//runCmd("git add .")
+	//runCmd("git commit -m \""+commitMsg+"\"")
 	runCmd("npm version "+newversion)
 
 	docParser.parse({
@@ -34,7 +34,7 @@ try {
 
 	runCmd("npm publish")
 	runCmd("git add .")
-	runCmd("git commit --amend -m '"+commitMsg+"'")
+	runCmd("git commit --amend -m \""+commitMsg+"\"")
 	runCmd("git push")	
 }
 catch(ex) {
